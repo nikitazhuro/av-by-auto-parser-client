@@ -1,0 +1,22 @@
+.carsListTitle {
+  font-size: 36px;
+  font-weight: 600;
+  color: #1890ff;
+  margin-bottom: 1.5rem;
+}
+
+.carsList {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterList {
+  display: flex;
+}
+
+.carsListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
