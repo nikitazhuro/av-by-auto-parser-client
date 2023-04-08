@@ -37,6 +37,7 @@ const AutoYearSelect = () => {
         showSearch
         style={{ width: 160 }}
         value={year}
+        allowClear
         placeholder="Select a year"
         optionFilterProp="children"
         onChange={onChange}

@@ -5,14 +5,12 @@ import classes from './LastSoldAuto.module.css';
 import LastSoldAutoGallery from './LastSoldAutoGallery';
 
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { RootState } from '../../../store';
-
-const getAutoFilter = (state: RootState) => state.autoFilter;
+import { getAutoFilter } from '../../../pages/Transport';
 
 const LastSoldAuto = () => {
-  const { brandId, generationId, modelId, year } = useTypedSelector(getAutoFilter);
+  const { brandId, generationId, modelId } = useTypedSelector(getAutoFilter);
 
-  const showAutoGallery = brandId && generationId && modelId && year;
+  const showAutoGallery = brandId && generationId && modelId;
 
   return (
     showAutoGallery ? (

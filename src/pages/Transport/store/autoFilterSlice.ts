@@ -5,6 +5,9 @@ interface IInitialState {
   modelId: number | null;
   generationId: number | null;
   year: number | null;
+  yearFrom: number | null;
+  yearTo: number | null;
+  triggerToRefetchCars: boolean;
 }
 
 const initialState: IInitialState = {
@@ -12,6 +15,9 @@ const initialState: IInitialState = {
   modelId: null,
   generationId: null,
   year: null,
+  yearFrom: null,
+  yearTo: null,
+  triggerToRefetchCars: false,
 }
 
 const autoFilterSlice = createSlice({
@@ -44,6 +50,24 @@ const autoFilterSlice = createSlice({
     },
     clearYear: (state) => {
       state.year = null;
+    },
+
+    setYearFrom: (state, action) => {
+      state.yearFrom = action.payload;
+    },
+    clearYearFrom: (state) => {
+      state.yearFrom = null;
+    },
+
+    setYearTo: (state, action) => {
+      state.yearTo = action.payload;
+    },
+    clearYearTo: (state) => {
+      state.yearTo = null;
+    },
+
+    setTriggerToRefetchCars: (state, action) => {
+      state.triggerToRefetchCars = action.payload;
     },
   }
 })

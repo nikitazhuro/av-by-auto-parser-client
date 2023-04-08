@@ -12,7 +12,7 @@ const AutoModelSelect = () => {
 
   const { data = [], isLoading } = useGetModelsQuery(brandId)
 
-  const { setModelId, clearGenerationId, clearYear } = autoFilterSliceActions;
+  const { setModelId, clearGenerationId, clearYear, clearYearFrom, clearYearTo } = autoFilterSliceActions;
 
   const selectOptions = useMemo(() => {
     return data.map((e) => ({ value: e.id, label: e.name }))
@@ -20,15 +20,17 @@ const AutoModelSelect = () => {
 
   const onChange = (value: number) => {
     dispatch(setModelId(value));
-    dispatch(clearGenerationId())
-    dispatch(clearYear())
+    dispatch(clearGenerationId());
+    dispatch(clearYear());
+    dispatch(clearYearFrom());
+    dispatch(clearYearTo());
   }
 
   return (
-    <Col style={{ display: 'flex', flexDirection: 'column'}}>
-    <span style={{ color: 'gray ', marginBottom: '0.25rem'}}>
-      Model:
-    </span>
+    <Col style={{ display: 'flex', flexDirection: 'column' }}>
+      <span style={{ color: 'gray ', marginBottom: '0.25rem' }}>
+        Model:
+      </span>
       <Select
         loading={isLoading}
         showSearch

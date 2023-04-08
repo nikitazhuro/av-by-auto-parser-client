@@ -17,17 +17,19 @@ const AutoBrandSelect: React.FC<IAutoBrandSelect> = ({
 
   const { brandId } = useTypedSelector((state) => state.autoFilter)
 
-  const { setBrandId, clearGenerationId, clearModelId, clearYear } = autoFilterSliceActions;
+  const { setBrandId, clearGenerationId, clearModelId, clearYear, clearYearFrom, clearYearTo } = autoFilterSliceActions;
 
   const selectOptions = useMemo(() => {
     return data.map((e) => ({ value: e.id, label: e.name }))
   }, [data]);
 
   const onChange = (value: number) => {
-    dispatch(setBrandId(value))
-    dispatch(clearGenerationId())
-    dispatch(clearModelId())
-    dispatch(clearYear())
+    dispatch(setBrandId(value));
+    dispatch(clearGenerationId());
+    dispatch(clearModelId());
+    dispatch(clearYear());
+    dispatch(clearYearFrom());
+    dispatch(clearYearTo());
   }
 
   return (
