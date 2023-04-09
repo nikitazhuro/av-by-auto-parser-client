@@ -1,21 +1,34 @@
-import React, { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
 import { useGetGenerationsQuery } from '../pages/Transport/store/transportApi';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { autoFilterSliceActions } from '../pages/Transport/store/autoFilterSlice';
+import { useGetCarsFilterActions } from '../pages/Transport/store/autoFilterSlice';
+import { getBrandId, getGenerationId, getModelId, getYear } from '../pages/Transport';
+import { useSearchParams } from 'react-router-dom';
 
 const AutoYearSelect = () => {
-  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { brandId, modelId, generationId, year } = useTypedSelector((state) => state.autoFilter)
+  const brandId = useTypedSelector(getBrandId)
+  const modelId = useTypedSelector(getModelId)
+  const generationId = useTypedSelector(getGenerationId)
+  const year = useTypedSelector(getYear)
 
   const { data = [] } = useGetGenerationsQuery({ brandId, modelId })
 
-  const { setYear } = autoFilterSliceActions;
+  const { setYear } = useGetCarsFilterActions();
 
   const onChange = (value: number) => {
-    dispatch(setYear(value))
+    setYear(value);
+
+    setSearchParams((prev) => {
+      prev.delete('year')
+
+      if (value) {
+        prev.append('year', `${value}`)
+      }
+      return prev
+    })
   }
 
   const selectOptions = useMemo(() => {
@@ -27,6 +40,14 @@ const AutoYearSelect = () => {
 
     return newArr.map((e, ind) => ({ label: `${e + ind}`, value: `${e + ind}`}))
   }, [data, generationId]);
+
+  useEffect(() => {
+    const yearFromParams = searchParams.get('year');
+
+    if (yearFromParams) {
+      setYear(+yearFromParams);
+    }
+  }, []);
 
   return (
     <Col style={{ display: 'flex', flexDirection: 'column' }}>

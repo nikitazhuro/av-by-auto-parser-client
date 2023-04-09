@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { autoFilterSliceActions } from '../pages/Transport/store/autoFilterSlice';
+
+import { useGetCarsFilterActions } from '../pages/Transport/store/autoFilterSlice';
 import { useTypedSelector } from '../hooks/useTypedSelector';
+import { getBrandId } from '../pages/Transport';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 interface IAutoBrandSelect {
   isLoading: boolean;
@@ -13,24 +15,33 @@ const AutoBrandSelect: React.FC<IAutoBrandSelect> = ({
   isLoading,
   data,
 }) => {
-  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { brandId } = useTypedSelector((state) => state.autoFilter)
+  const brandId = useTypedSelector(getBrandId)
 
-  const { setBrandId, clearGenerationId, clearModelId, clearYear, clearYearFrom, clearYearTo } = autoFilterSliceActions;
+  const { setBrandId, clearAllForNewBrand } = useGetCarsFilterActions();
 
   const selectOptions = useMemo(() => {
     return data.map((e) => ({ value: e.id, label: e.name }))
   }, [data]);
 
   const onChange = (value: number) => {
-    dispatch(setBrandId(value));
-    dispatch(clearGenerationId());
-    dispatch(clearModelId());
-    dispatch(clearYear());
-    dispatch(clearYearFrom());
-    dispatch(clearYearTo());
+    setBrandId(value);
+    if (value) {
+      setSearchParams({ brand: `${value}` })
+    } else {
+      setSearchParams({});
+    }
+    clearAllForNewBrand();
   }
+
+  useEffect(() => {
+    const brandIDFromParams = searchParams.get('brand');
+
+    if (brandIDFromParams) {
+      setBrandId(+brandIDFromParams);    
+    }
+  }, []);
 
   return (
     <Col style={{ display: 'flex', flexDirection: 'column'}}>
@@ -40,7 +51,7 @@ const AutoBrandSelect: React.FC<IAutoBrandSelect> = ({
       <Select
         loading={isLoading}
         showSearch
-        value={brandId}
+        value={(data.length && brandId) || null}
         style={{ width: 160 }}
         placeholder="Select a brand"
         optionFilterProp="children"

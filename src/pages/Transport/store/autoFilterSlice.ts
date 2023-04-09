@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { useAppDispatch } from './../../../hooks/useAppDispatch';
+import { bindActionCreators, createSlice } from "@reduxjs/toolkit";
 
 interface IInitialState {
   brandId: number | null;
@@ -69,9 +70,29 @@ const autoFilterSlice = createSlice({
     setTriggerToRefetchCars: (state, action) => {
       state.triggerToRefetchCars = action.payload;
     },
+
+    clearAllForNewBrand: (state) => {
+      state.generationId = null;
+      state.modelId = null;
+      state.year = null;
+      state.yearFrom = null;
+      state.yearTo = null;
+    },
+    clearAllForNewModel: (state) => {
+      state.generationId = null;
+      state.year = null;
+      state.yearFrom = null;
+      state.yearTo = null;
+    }
   }
 })
 
 export const autoFilterSliceActions = autoFilterSlice.actions;
+
+export const useGetCarsFilterActions = () => {
+  const dispatch = useAppDispatch();
+
+  return bindActionCreators(autoFilterSlice.actions, dispatch);
+}
 
 export default autoFilterSlice.reducer;

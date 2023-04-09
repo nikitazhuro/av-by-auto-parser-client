@@ -11,13 +11,15 @@ import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
 
 import { useGetBrandsQuery } from '../../../pages/Transport/store/transportApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { getAutoFilter } from '../../../pages/Transport';
+import { getBrandId, getGenerationId, getModelId } from '../../../pages/Transport';
 
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
 
-  const { generationId, brandId, modelId } = useTypedSelector(getAutoFilter)
+  const generationId = useTypedSelector(getGenerationId)
+  const brandId = useTypedSelector(getBrandId)
+  const modelId = useTypedSelector(getModelId)
 
   return (
     <Row className={classes.carsFilter}>

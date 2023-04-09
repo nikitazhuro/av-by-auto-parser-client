@@ -1,10 +1,25 @@
 import Transport from "./components/Transport";
-import { getAutoFilter, getTriggerToRefetchCars  } from "./store/selectors";
+
+import {
+  getAutoFilter,
+  getTriggerToRefetchCars,
+  getBrandId,
+  getGenerationId,
+  getModelId,
+  getYear,
+  getYearFrom,
+  getYearTo,
+} from "./store/selectors";
 
 export {
   getAutoFilter,
-  getTriggerToRefetchCars
+  getTriggerToRefetchCars,
+  getBrandId,
+  getGenerationId,
+  getModelId,
+  getYear,
+  getYearFrom,
+  getYearTo,
 }
 
 export default Transport;
-
