@@ -2,10 +2,10 @@ import { Col, Row } from 'antd';
 
 import classes from './AutoFilter.module.css';
 
-import AutoBrandSelect from '../../../components/AutoBrandSelect';
-import AutoModelSelect from '../../../components/AutoModelSelect';
-import AutoGenerationSelect from '../../../components/AutoGenerationSelect';
-import AutoYearSelect from '../../../components/AutoYearSelect';
+import AutoBrandSelect from '../../../components/AutoFilterSelects/AutoBrandSelect';
+import AutoModelSelect from '../../../components/AutoFilterSelects/AutoModelSelect';
+import AutoGenerationSelect from '../../../components/AutoFilterSelects/AutoGenerationSelect';
+import AutoYearSelect from '../../../components/AutoFilterSelects/AutoYearSelect';
 import SaveAllCars from './SaveAllCars/SaveAllCars';
 import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
 

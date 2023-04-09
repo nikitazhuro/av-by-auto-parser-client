@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
+import { useSearchParams } from 'react-router-dom';
 
-import { useGetCarsFilterActions } from '../pages/Transport/store/autoFilterSlice';
-import { useTypedSelector } from '../hooks/useTypedSelector';
-import { getBrandId } from '../pages/Transport';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useGetCarsFilterActions } from '../../pages/Transport/store/autoFilterSlice';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { getBrandId } from '../../pages/Transport';
 
 interface IAutoBrandSelect {
   isLoading: boolean;

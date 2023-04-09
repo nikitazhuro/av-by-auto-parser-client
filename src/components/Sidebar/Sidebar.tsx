@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout, Menu, MenuProps } from "antd";
 import { CarOutlined, HomeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+
+import classes from './Sidebar.module.css';
 
 const { Sider } = Layout;
 
@@ -31,18 +33,20 @@ const items: MenuItem[] = [
 
 interface ISideMenu {
   selectedRoute: string;
+  collapsed: boolean;
+  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>
   setSelectedRoute: React.Dispatch<React.SetStateAction<string>>
 }
 
 const SideMenu: React.FC<ISideMenu> = ({
+  collapsed,
+  setCollapsed,
   selectedRoute,
   setSelectedRoute,
 }) => {
   const router = useNavigate();
 
-  const [collapsed, setCollapsed] = useState(false);
-
-  const onChangeMenu: MenuProps['onClick'] = ({ key }) => {    
+  const onChangeMenu: MenuProps['onClick'] = ({ key }) => {
     switch (key) {
       case 'Home':
         setSelectedRoute('Home');
@@ -59,10 +63,33 @@ const SideMenu: React.FC<ISideMenu> = ({
     }
   };
 
+  const onChangeCollapsed = (value: boolean) => {
+    setCollapsed(value);
+  }
+
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-      <div style={{ fontSize: '34px', color: 'white', display: 'flex', justifyContent: 'center', padding: '16px' }}>Logo</div>
-      <Menu defaultOpenKeys={['Transport']} onClick={onChangeMenu} theme="dark" selectedKeys={[selectedRoute]} mode="inline" items={items} />
+    <Sider
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onChangeCollapsed}
+    >
+      <div onClick={() => router('/')} className={classes.logo}>AP</div>
+      <Menu
+        defaultOpenKeys={['Transport']}
+        onClick={onChangeMenu}
+        theme="dark"
+        selectedKeys={[selectedRoute]}
+        mode="inline"
+        items={items}
+      />
     </Sider>
   )
 }

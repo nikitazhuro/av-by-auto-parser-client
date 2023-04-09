@@ -1,11 +1,11 @@
 import { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
-
-import { useGetGenerationsQuery } from '../pages/Transport/store/transportApi';
-import { useGetCarsFilterActions } from '../pages/Transport/store/autoFilterSlice';
-import { useTypedSelector } from '../hooks/useTypedSelector';
-import { getBrandId, getGenerationId, getModelId } from '../pages/Transport';
 import { useSearchParams } from 'react-router-dom';
+
+import { useGetGenerationsQuery } from '../../pages/Transport/store/transportApi';
+import { useGetCarsFilterActions } from '../../pages/Transport/store/autoFilterSlice';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { getBrandId, getGenerationId, getModelId } from '../../pages/Transport';
 
 const AutoGenerationSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();
