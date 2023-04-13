@@ -1,0 +1,32 @@
+.customSaveBtn {
+  margin-right: 0.5rem;
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.divider span {
+  color: #1677ff;
+}
+
+.eye {
+  cursor: pointer;
+}
+
+.eye:hover {
+  color: #1677ff;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modalHeader button {
+  margin-left: 0.5rem;
+}
