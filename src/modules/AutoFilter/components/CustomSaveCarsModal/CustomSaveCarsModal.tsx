@@ -11,6 +11,7 @@ import { createMileageCarsToLocalhost, getGenerationsFromAVApi, getMileageCarsFr
 import { transformListOfCarsForAllYearsFromGen } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
+import LoadingModal from '../../../../components/LoadingModal/LoadingModal';
 
 interface ICustomSaveCarsModal {
   brands: Array<{ id: number, name: string }>
@@ -27,6 +28,7 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
   const [opensBrandId, setOpensBrandId] = useState<number | null>(null);
   const [showAllBrands, setShowAllBrands] = useState(false);
   const [checkedBrandList, setCheckedBrandList] = useState<Array<number>>([]);
+  const [spinning, setSpinning] = useState(false);
 
   const brandsFiltered = useMemo(() => {
     if (showAllBrands) {
@@ -55,16 +57,12 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
 
   const saveCardToDatabase = async (config: any) => {
     createMileageCarsToLocalhost(config).then(() => {
-      notification.success({
-        type: 'success',
-        message: `Данные успешно сохранены в базу данных`,
-      })
-
       dispatch(setTriggerToRefetchCars(true));
     })
   }
 
   const saveCarsRequest = async () => {
+    setSpinning(true)
     const resultDataToSave: any[] = [];
 
     for (let i = 0; i < checkedBrandList.length; i++) {
@@ -151,6 +149,12 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
     finishResult.forEach((e) => {
       saveCardToDatabase(e)
     })
+
+    setSpinning(false);
+    notification.success({
+      type: 'success',
+      message: `Данные успешно сохранены в базу данных`,
+    })
   }
 
   const onCheckHandler = (field: number) => (e: CheckboxChangeEvent) => {
@@ -166,6 +170,7 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
 
   return (
     <>
+      <LoadingModal spinning={spinning} />
       <Button
         type="primary"
         className={classes.customSaveBtn}
