@@ -1,4 +1,4 @@
-export const transformListOfCarsForAllYearsFromGen = (listOfTheSameGenCars: any[], result: any[]) => {
+export const transformListOfCarsForAllYearsFromGen = (listOfTheSameGenCars: any[]) => {
   const lastElem = listOfTheSameGenCars[listOfTheSameGenCars.length - 1];
 
   const resultObj = {
@@ -21,5 +21,5 @@ export const transformListOfCarsForAllYearsFromGen = (listOfTheSameGenCars: any[
 
   resultObj.data = data;
 
-  result.push(resultObj)
+  return resultObj;
 }

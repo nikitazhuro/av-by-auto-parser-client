@@ -111,17 +111,16 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
             }
           }          
 
-          const finishResult: any[] = [];
           let listOfTheSameGenCars: any[] = resultDataToSave.filter((data) => data?.data?.lastSoldAdverts?.length)
 
           if (listOfTheSameGenCars.length) {
-            transformListOfCarsForAllYearsFromGen(listOfTheSameGenCars, finishResult)
+            const dataToSaveToDb = transformListOfCarsForAllYearsFromGen(listOfTheSameGenCars)
 
-            finishResult.forEach((e) => {
-              saveCardToDatabase(e)
-            })
+            saveCardToDatabase(dataToSaveToDb)
           }
         }
+
+        
       }
     }
 
