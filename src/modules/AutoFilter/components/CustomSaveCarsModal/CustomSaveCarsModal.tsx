@@ -12,6 +12,7 @@ import { transformListOfCarsForAllYearsFromGen } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
 import LoadingModal from '../../../../components/LoadingModal/LoadingModal';
+import DividerWrapper from '../../../../components/Divider/DividerWrapper';
 
 interface ICustomSaveCarsModal {
   brands: Array<{ id: number, name: string }>
@@ -50,10 +51,6 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
 
     setOpen(false);
   };
-
-  const onChangeShowAllBrands = () => {
-    setShowAllBrands((prev) => !prev);
-  }
 
   const saveCardToDatabase = async (config: any) => {
     createMileageCarsToLocalhost(config).then(() => {
@@ -217,24 +214,7 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
             </Col>
           ))}
         </Col>
-        <Divider className={classes.divider}>
-          <span onClick={onChangeShowAllBrands}>
-            {showAllBrands
-              ? (
-                <Col className={classes.moreContentBtn}>
-                  {'Hide more'}
-                  <UpOutlined style={{ marginLeft: '0.25rem' }} />
-                </Col>
-
-              )
-              : (
-                <Col className={classes.moreContentBtn}>
-                  {'Show more'}
-                  <DownOutlined style={{ marginLeft: '0.25rem' }} />
-                </Col>
-              )}
-          </span>
-        </Divider>
+        <DividerWrapper state={showAllBrands} setState={setShowAllBrands} />
       </Modal>
       <Modal
         open={!!opensBrandId || opensBrandId === 0}

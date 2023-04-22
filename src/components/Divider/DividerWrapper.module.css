@@ -1,0 +1,13 @@
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.moreContentBtn {
+  color: #1677ff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
