@@ -62,7 +62,6 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
   }
 
   const saveCarsRequest = async () => {
-    setSpinning(true)
     const resultDataToSave: any[] = [];
 
     for (let i = 0; i < checkedBrandList.length; i++) {
@@ -149,8 +148,16 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
     finishResult.forEach((e) => {
       saveCardToDatabase(e)
     })
+  }
+
+  const onOkHandler = async () => {
+    setSpinning(true)
+
+    await saveCarsRequest();
 
     setSpinning(false);
+
+    closeModalHandler()
     notification.success({
       type: 'success',
       message: `Данные успешно сохранены в базу данных`,
@@ -184,7 +191,21 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
         destroyOnClose
         width={1200}
         onCancel={closeModalHandler}
-        onOk={saveCarsRequest}
+        footer={[
+          <Button key="back" onClick={closeModalHandler}>
+            Return
+          </Button>,
+          <Button key="submit" type="primary" onClick={closeModalHandler}>
+            Submit
+          </Button>,
+          <Button
+            key="link"
+            type="primary"
+            onClick={onOkHandler}
+          >
+            Save selected
+          </Button>,
+        ]}
       >
         <Col span={24} style={{ display: 'flex', flexWrap: 'wrap' }}>
           {brandsFiltered.map((brand) => (
@@ -200,17 +221,17 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
           <span onClick={onChangeShowAllBrands}>
             {showAllBrands
               ? (
-                <>
+                <Col className={classes.moreContentBtn}>
                   {'Hide more'}
                   <UpOutlined style={{ marginLeft: '0.25rem' }} />
-                </>
+                </Col>
 
               )
               : (
-                <>
+                <Col className={classes.moreContentBtn}>
                   {'Show more'}
                   <DownOutlined style={{ marginLeft: '0.25rem' }} />
-                </>
+                </Col>
               )}
           </span>
         </Divider>
@@ -218,9 +239,20 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
       <Modal
         open={!!opensBrandId || opensBrandId === 0}
         width={800}
+        title={(!!opensBrandId || opensBrandId === 0) && (
+          <Col>
+            <h2>{brands.find((e) => e.id === opensBrandId)?.name}</h2>
+            <hr style={{ opacity: '0.5', margin: '1rem 0'}} />
+          </Col>
+        )}
         destroyOnClose
         onCancel={() => setOpensBrandId(null)}
         onOk={() => setOpensBrandId(null)}
+        footer={[
+          <Button key="submit" type="primary" onClick={() => setOpensBrandId(null)}>
+            Submit
+          </Button>,
+        ]}
       >
         <BrandModelsModalContent brandId={opensBrandId} />
       </Modal>

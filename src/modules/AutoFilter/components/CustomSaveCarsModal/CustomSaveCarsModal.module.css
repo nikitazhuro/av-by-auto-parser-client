@@ -30,3 +30,10 @@
 .modalHeader button {
   margin-left: 0.5rem;
 }
+
+.moreContentBtn {
+  color: #1677ff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
