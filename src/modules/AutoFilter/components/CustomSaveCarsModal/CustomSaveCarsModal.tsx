@@ -1,18 +1,18 @@
 import React, { useMemo, useState } from 'react'
-import { Button, Checkbox, Col, Divider, Modal, notification } from "antd"
-import { UpOutlined, DownOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Col, Modal, notification } from "antd"
+import { EyeOutlined } from '@ant-design/icons';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useDispatch } from 'react-redux';
 
 import classes from './CustomSaveCarsModal.module.css';
 
-import BrandModelsModalContent from './BrandModelsModalContent/BrandModelsModalContent';
-
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { createMileageCarsToLocalhost, getGenerationsFromAVApi, getMileageCarsFromAVApi } from '../../../../api/mileageCardApi';
-import { transformListOfCarsForAllYearsFromGen } from '../../utils';
-import { useDispatch } from 'react-redux';
-import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
+import BrandModelsModal from './BrandModelsModal/BrandModelsModal';
 import LoadingModal from '../../../../components/LoadingModal/LoadingModal';
 import DividerWrapper from '../../../../components/Divider/DividerWrapper';
+
+import { createMileageCarsToLocalhost, getGenerationsFromAVApi, getMileageCarsFromAVApi } from '../../../../api/mileageCardApi';
+import { transformListOfCarsForAllYearsFromGen } from '../../utils';
+import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
 
 interface ICustomSaveCarsModal {
   brands: Array<{ id: number, name: string }>
@@ -189,12 +189,6 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
         width={1200}
         onCancel={closeModalHandler}
         footer={[
-          <Button key="back" onClick={closeModalHandler}>
-            Return
-          </Button>,
-          <Button key="submit" type="primary" onClick={closeModalHandler}>
-            Submit
-          </Button>,
           <Button
             key="link"
             type="primary"
@@ -216,26 +210,11 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
         </Col>
         <DividerWrapper state={showAllBrands} setState={setShowAllBrands} />
       </Modal>
-      <Modal
-        open={!!opensBrandId || opensBrandId === 0}
-        width={800}
-        title={(!!opensBrandId || opensBrandId === 0) && (
-          <Col>
-            <h2>{brands.find((e) => e.id === opensBrandId)?.name}</h2>
-            <hr style={{ opacity: '0.5', margin: '1rem 0'}} />
-          </Col>
-        )}
-        destroyOnClose
-        onCancel={() => setOpensBrandId(null)}
-        onOk={() => setOpensBrandId(null)}
-        footer={[
-          <Button key="submit" type="primary" onClick={() => setOpensBrandId(null)}>
-            Submit
-          </Button>,
-        ]}
-      >
-        <BrandModelsModalContent brandId={opensBrandId} />
-      </Modal>
+      <BrandModelsModal
+        title={brands.find((e) => e.id === opensBrandId)?.name || ''}
+        brandId={opensBrandId}
+        setBrandId={setOpensBrandId}
+      />
     </>
 
   )
