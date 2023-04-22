@@ -53,14 +53,10 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
   };
 
   const saveCardToDatabase = async (config: any) => {
-    createMileageCarsToLocalhost(config).then(() => {
-      dispatch(setTriggerToRefetchCars(true));
-    })
+    createMileageCarsToLocalhost(config)
   }
 
   const saveCarsRequest = async () => {
-    const resultDataToSave: any[] = [];
-
     for (let i = 0; i < checkedBrandList.length; i++) {
       const brandsFromLocalStorage = localStorage.getItem(`${checkedBrandList[i]}`);
       const models = brandsFromLocalStorage ? JSON.parse(brandsFromLocalStorage) : []
@@ -69,6 +65,8 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
         const generations = await getGenerationsFromAVApi(checkedBrandList[i], models[j])
 
         for (let k = 0; k < generations.length; k++) {
+          const resultDataToSave: any[] = [];
+
           const {
             id: generationId,
             yearFrom,
@@ -111,40 +109,25 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
             } catch (error) {
 
             }
+          }          
+
+          const finishResult: any[] = [];
+          let listOfTheSameGenCars: any[] = resultDataToSave.filter((data) => data?.data?.lastSoldAdverts?.length)
+
+          if (listOfTheSameGenCars.length) {
+            transformListOfCarsForAllYearsFromGen(listOfTheSameGenCars, finishResult)
+
+            finishResult.forEach((e) => {
+              saveCardToDatabase(e)
+            })
           }
         }
       }
     }
 
-    const finishResult: any[] = [];
-    let listOfTheSameGenCars: any[] = [];
-
-    for (let i = 0; i < resultDataToSave.length; i++) {
-      if (!resultDataToSave[i].data?.lastSoldAdverts?.length) continue;
-      if (!listOfTheSameGenCars.length) {
-        listOfTheSameGenCars.push(resultDataToSave[i])
-        continue;
-      }
-
-      const lastElem = listOfTheSameGenCars[listOfTheSameGenCars.length - 1];
-
-      if (
-        lastElem.brandId === resultDataToSave[i].brandId
-        && lastElem.modelId === resultDataToSave[i].modelId
-        && lastElem.generationId === resultDataToSave[i].generationId
-      ) {
-        listOfTheSameGenCars.push(resultDataToSave[i])
-      } else {
-        transformListOfCarsForAllYearsFromGen(listOfTheSameGenCars, finishResult)
-        listOfTheSameGenCars = [resultDataToSave[i]]
-      }
-    }
-
-    transformListOfCarsForAllYearsFromGen(listOfTheSameGenCars, finishResult)
-
-    finishResult.forEach((e) => {
-      saveCardToDatabase(e)
-    })
+    console.log(23455);
+    
+    dispatch(setTriggerToRefetchCars(true));
   }
 
   const onOkHandler = async () => {
