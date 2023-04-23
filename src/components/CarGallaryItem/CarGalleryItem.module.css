@@ -7,6 +7,18 @@
   flex-direction: column;
 }
 
+.description {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0.5rem;
+}
+
+.priceBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card img{
   width: 275px;
   height: 206px;
@@ -26,6 +38,21 @@
 .price_byn {
   font-size: 15px;
   font-weight: 700;
+}
+
+.basket {
+  color: #f5222d;
+  transition: 0.3s ease all;
+  cursor: pointer;
+}
+
+.basket:hover {
+ fill: #f5222d;
+}
+
+.basket svg {
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 .price_usd {

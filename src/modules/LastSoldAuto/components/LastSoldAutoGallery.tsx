@@ -40,27 +40,27 @@ const LastSoldAutoGallery = () => {
   const priceData = useMemo(() => {
     const result = data.map((cars) => {
       const prices = cars.data.lastSoldCars
-        .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount}))
+        .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount }))
         .sort((a, b) => a.usd - b.usd);
-      
-        if (prices) {
-          const min = prices[0];
-          const max = prices[prices.length - 1]
-          const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
-          const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
 
-          return {
-            year: cars.year,
-            minPrice: min,
-            maxPrice: max,
-            mediumUSDPrice: midUSD,
-            mediumBYNPrice: midBYN,
-          }
-        }        
+      if (prices) {
+        const min = prices[0];
+        const max = prices[prices.length - 1]
+        const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
+        const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
+
+        return {
+          year: cars.year,
+          minPrice: min,
+          maxPrice: max,
+          mediumUSDPrice: midUSD,
+          mediumBYNPrice: midBYN,
+        }
+      }
     })
 
     return result;
-  }, [JSON.stringify(data)])  
+  }, [JSON.stringify(data)])
 
   useEffect(() => {
     if (brandId && generationId && modelId) {
@@ -92,10 +92,24 @@ const LastSoldAutoGallery = () => {
     <Spin spinning={isLoading}>
       {data.map((yearData) => (
         yearData?.year && (
-          <>
-            <Row className={classes.price}>
+          <Row key={yearData?.year} className={classes.mainContainer}>
+            <Row>
               <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData.year}</span>} />
-              <h2>Price:</h2>
+              <h2>Actual price:</h2>
+              <Col span={24} className={classes.priceList}>
+                <Col span={8}>
+                  Medium price - {yearData.data?.mediumPrice?.priceUsd} $ ~ {yearData.data?.mediumPrice?.priceByn} BYN
+                </Col>
+                <Col span={8}>
+                  Minimum price - {yearData.data?.mediumPrice?.minPriceUsd} $
+                </Col>
+                <Col span={8}>
+                  Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
+                </Col>
+              </Col>
+            </Row>
+            <Row className={classes.soldPrice}>
+              <h2>Sold price:</h2>
               <Col span={24} className={classes.priceList}>
                 <Col span={8}>
                   Medium price - {priceData.find((price) => price?.year === yearData.year)?.mediumUSDPrice} $ ~ {priceData.find((price) => price?.year === yearData.year)?.mediumBYNPrice} BYN
@@ -114,7 +128,7 @@ const LastSoldAutoGallery = () => {
                 <CarGallaryItem key={car.id} car={car} />
               ))}
             </Row>
-          </>
+          </Row>
         )
       ))}
     </Spin>

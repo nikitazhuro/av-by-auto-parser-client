@@ -1,5 +1,7 @@
 import { Col } from "antd";
 
+import { DeleteOutlined } from '@ant-design/icons';
+
 import classes from './CarGalleryItem.module.css';
 
 import { ISoldAuto } from "../../pages/Transport/store/transportApi";
@@ -17,14 +19,21 @@ const CarGallaryItem: React.FC<ICarGallaryItem> = ({
   return (
     <Col className={classes.card}>
       <img src={car?.photos[0]?.medium?.url} alt="photo" />
-      <Col className={classes.price}>
-        <a target="_blank" href={car.publicUrl}>
-          <span className={classes.price_byn}>{car.price?.byn?.amount} p.</span>
-          <span className={classes.price_usd}>~{car.price?.usd?.amount} $</span>
-        </a>
-      </Col>
-      <Col>
-        Продано за {daysOnSold} дня, {new Date(Date.parse(car.removedAt)).toDateString()}
+      <Col className={classes.description}>
+        <Col className={classes.priceBlock}>
+          <Col className={classes.price}>
+            <a target="_blank" href={car.publicUrl}>
+              <span className={classes.price_byn}>{car.price?.byn?.amount} p.</span>
+              <span className={classes.price_usd}>~{car.price?.usd?.amount} $</span>
+            </a>
+          </Col>
+          <Col className={classes.basket}>
+            <DeleteOutlined size={1.5} />
+          </Col>
+        </Col>
+        <Col>
+          Продано за {daysOnSold} дня, {new Date(Date.parse(car.removedAt)).toDateString()}
+        </Col>
       </Col>
     </Col>
   )
