@@ -5,3 +5,19 @@
 .title {
   color: gray
 }
+
+.acceptParseDate {
+  color: #389e0d;
+}
+
+.warnParseDate {
+  color: #fa8c16;
+}
+
+.dangerParseDate {
+  color: #f5222d;
+}
+
+.noParseDate {
+  color: rgba(0, 0, 0, 0.8);
+}

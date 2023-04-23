@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Col, Modal, Row } from "antd"
+import { Button, Checkbox, Col, Modal, Row, Tooltip } from "antd"
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import classes from './BrandModelsModal.module.css';
 
 import { getModelsFromAVApi } from '../../../../../api/mileageCardApi';
+import dayjs from 'dayjs';
 
 interface IModelModal {
   brandId: number | null;
@@ -18,15 +20,16 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
   setBrandId,
 }) => {
   const [models, setModels] = useState<Array<any>>([]);
-  const [checkedModelList, setCheckedModelList] = useState<Array<number>>([]);
+  const [checkedModelList, setCheckedModelList] = useState<Array<{ id: number, checked: boolean }>>([]);  
 
   const onCheckHandler = (field: number) => (e: CheckboxChangeEvent) => {
     setCheckedModelList((prev) => {
-      if (prev.includes(field) && !e.target.checked) {
-        return prev.filter((el) => el !== field)
+      if (prev.find((e) => e.id === field) && !e.target.checked) {
+        
+        return [...prev.map((model) => model.id === field ? { ...model, checked: false } : model)]
       }
 
-      return [...prev, field]
+      return [...prev, { id: field, checked: true }]
     })
   }
 
@@ -44,12 +47,54 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
 
   const onSelectAll = (e: CheckboxChangeEvent) => {
     if (e.target.checked) {
-      const modelIds = models.map((model) => model.id);
+      const modelIds = models.map((model) => ({ id:  model.id, checked: true }));
 
       setCheckedModelList(modelIds);
     } else {
       setCheckedModelList([]);
     }
+  }
+
+  const lastParseDate = (brandId: number | null, modelId: number) => {
+    const brand = localStorage.getItem(`${brandId}`);
+    const modelList = brand ? JSON.parse(brand).models : []
+    const currentModel = modelList.find((model: any) => model.id === modelId)
+
+    const parseDate = currentModel?.lastParseDate;
+
+    if (currentModel && parseDate) {
+      const diff = dayjs(new Date()).diff(dayjs(parseDate));
+
+      if (diff < 1000 * 60 * 60 * 60 * 48) {
+
+        return (
+          <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+            <CheckCircleOutlined className={classes.acceptParseDate} />
+          </Tooltip>
+        )
+      }
+
+      if (diff < 1000 * 60 * 60 * 60 * 168) {
+
+        return (
+          <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+            <CheckCircleOutlined className={classes.warnParseDate} />
+          </Tooltip>
+        )
+      }
+
+      return (
+        <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+          <ExclamationCircleOutlined className={classes.dangerParseDate} />
+        </Tooltip>
+      )
+    }
+
+    return (
+      <Tooltip title="No parse date">
+        <ExclamationCircleOutlined className={classes.noParseDate} />
+      </Tooltip>
+    )
   }
 
   useEffect(() => {
@@ -63,8 +108,8 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
 
       const savedModelsForBrand = localStorage.getItem(`${brandId}`);
 
-      if (savedModelsForBrand && JSON.parse(savedModelsForBrand).length) {
-        setCheckedModelList((JSON.parse(savedModelsForBrand)) || []);
+      if (savedModelsForBrand && JSON.parse(savedModelsForBrand)?.models?.length) {
+        setCheckedModelList((JSON.parse(savedModelsForBrand)?.models) || []);
       }
     }
   }, [brandId, models]);
@@ -83,7 +128,11 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
       onCancel={onCloseModal}
       footer={[
         <Button key="submit" type="primary" onClick={() => {
-          localStorage.setItem(`${brandId}`, JSON.stringify(checkedModelList));
+          const config = {
+            models: checkedModelList,
+          };
+
+          localStorage.setItem(`${brandId}`, JSON.stringify(config));
 
           onCloseModal();
         }}>
@@ -104,13 +153,15 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
         <Col span={24} style={{ display: 'flex', flexWrap: 'wrap' }}>
           {models.map((model) => (
             <Col span={4} key={model.id}>
-              <Checkbox checked={checkedModelList.includes(model.id)} onChange={onCheckHandler(model.id)}>
+              <Checkbox checked={checkedModelList.find((e) => e.id === model.id)?.checked} onChange={onCheckHandler(model.id)}>
                 {model.name}
               </Checkbox>
+              {lastParseDate(brandId, model.id)}
             </Col>
           ))}
         </Col>
-      </Row>      </Modal>
+      </Row>
+    </Modal>
   )
 }
 

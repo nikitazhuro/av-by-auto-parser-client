@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react'
-import { Button, Checkbox, Col, Modal, notification } from "antd"
-import { EyeOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Col, Modal, Tooltip, notification } from "antd"
+import { EyeOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { useDispatch } from 'react-redux';
+import dayjs from 'dayjs';
 
 import classes from './CustomSaveCarsModal.module.css';
 
@@ -56,13 +57,33 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
     createMileageCarsToLocalhost(config)
   }
 
+  const updateLastParseDate = (brandId: number, modelId: number) => {
+    const brandData = localStorage.getItem(`${brandId}`);
+
+    if (brandData) {
+      const parsed = JSON.parse(brandData);
+
+      if (parsed?.models?.length) {
+        const newData = {
+          ...parsed,
+          models: [...parsed.models.map((model: any) => model.id === modelId ? {...model, lastParseDate: new Date()} : model)],
+          lastParseDate: new Date(),
+        }
+
+        return localStorage.setItem(`${brandId}`, JSON.stringify(newData))
+      }
+    }
+  }
+
   const saveCarsRequest = async () => {
     for (let i = 0; i < checkedBrandList.length; i++) {
       const brandsFromLocalStorage = localStorage.getItem(`${checkedBrandList[i]}`);
-      const models = brandsFromLocalStorage ? JSON.parse(brandsFromLocalStorage) : []
+      const models = brandsFromLocalStorage
+        ? JSON.parse(brandsFromLocalStorage)?.models.filter((model: any) => model.checked)
+        : [];
 
       for (let j = 0; j < models.length; j++) {
-        const generations = await getGenerationsFromAVApi(checkedBrandList[i], models[j])
+        const generations = await getGenerationsFromAVApi(checkedBrandList[i], models[j].id)
 
         for (let k = 0; k < generations.length; k++) {
           const resultDataToSave: any[] = [];
@@ -95,13 +116,13 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
           } else if (yearFrom || yearTo) {
             const resultData = {
               brandId: checkedBrandList[i],
-              modelId: models[j],
+              modelId: models[j].id,
               generationId,
               data: {},
             };
 
             try {
-              const mileageCars = await getMileageCarsFromAVApi(checkedBrandList[i], models[j], generationId, yearFrom || yearTo);
+              const mileageCars = await getMileageCarsFromAVApi(checkedBrandList[i], models[j].id, generationId, yearFrom || yearTo);
 
               resultData.data = mileageCars;
 
@@ -120,11 +141,9 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
           }
         }
 
-        
+        updateLastParseDate(checkedBrandList[i], models[j].id)
       }
     }
-
-    console.log(23455);
     
     dispatch(setTriggerToRefetchCars(true));
   }
@@ -152,6 +171,45 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
 
       return [...prev, field]
     })
+  }
+
+  const lastParseDate = (brandId: number) => {
+    const brand = localStorage.getItem(`${brandId}`);
+    const parseDate = brand ? JSON.parse(brand).lastParseDate : null
+
+    if (brand && parseDate) {
+      const diff = dayjs(new Date()).diff(dayjs(parseDate));
+
+      if (diff < 1000 * 60 * 60 * 60 * 48) {
+
+        return (
+          <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+            <CheckCircleOutlined className={classes.acceptParseDate} />
+          </Tooltip>
+        )
+      }
+
+      if (diff < 1000 * 60 * 60 * 60 * 168) {
+
+        return (
+          <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+            <CheckCircleOutlined className={classes.warnParseDate} />
+          </Tooltip>
+        )
+      }
+
+      return (
+        <Tooltip title={`Last parsing was on ${dayjs(parseDate).format("YYYY-MM-DD, HH:mm")}`}>
+          <ExclamationCircleOutlined className={classes.dangerParseDate} />
+        </Tooltip>
+      )
+    }
+
+    return (
+      <Tooltip title="No parse date">
+        <ExclamationCircleOutlined className={classes.noParseDate} />
+      </Tooltip>
+    )
   }
 
   return (
@@ -187,6 +245,7 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
                 {brand.name}
               </Checkbox>
               <EyeOutlined onClick={() => setOpensBrandId(brand.id)} className={classes.eye} />
+              {lastParseDate(brand.id)}
             </Col>
           ))}
         </Col>
