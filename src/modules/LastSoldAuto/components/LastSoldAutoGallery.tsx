@@ -1,5 +1,5 @@
 import { Col, Divider, Row, Spin } from 'antd';
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import classes from './LastSoldAutoGallery.module.css';
 
@@ -37,6 +37,31 @@ const LastSoldAutoGallery = () => {
     }
   }
 
+  const priceData = useMemo(() => {
+    const result = data.map((cars) => {
+      const prices = cars.data.lastSoldCars
+        .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount}))
+        .sort((a, b) => a.usd - b.usd);
+      
+        if (prices) {
+          const min = prices[0];
+          const max = prices[prices.length - 1]
+          const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
+          const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
+
+          return {
+            year: cars.year,
+            minPrice: min,
+            maxPrice: max,
+            mediumUSDPrice: midUSD,
+            mediumBYNPrice: midBYN,
+          }
+        }        
+    })
+
+    return result;
+  }, [JSON.stringify(data)])  
+
   useEffect(() => {
     if (brandId && generationId && modelId) {
       const config = {
@@ -72,14 +97,14 @@ const LastSoldAutoGallery = () => {
               <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData.year}</span>} />
               <h2>Price:</h2>
               <Col span={24} className={classes.priceList}>
-                <Col span={6}>
-                  Medium price - {yearData.data?.mediumPrice?.priceUsd} $
+                <Col span={8}>
+                  Medium price - {priceData.find((price) => price?.year === yearData.year)?.mediumUSDPrice} $ ~ {priceData.find((price) => price?.year === yearData.year)?.mediumBYNPrice} BYN
                 </Col>
-                <Col span={6}>
-                  Minimum price - {yearData.data?.mediumPrice?.minPriceUsd} $
+                <Col span={8}>
+                  Minimum price - {priceData.find((price) => price?.year === yearData.year)?.minPrice.usd} $ ~ {priceData.find((price) => price?.year === yearData.year)?.minPrice.byn} BYN
                 </Col>
-                <Col span={6}>
-                  Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
+                <Col span={8}>
+                  Maximum price - {priceData.find((price) => price?.year === yearData.year)?.maxPrice.usd} $ ~ {priceData.find((price) => price?.year === yearData.year)?.maxPrice.byn} BYN
                 </Col>
               </Col>
             </Row>
