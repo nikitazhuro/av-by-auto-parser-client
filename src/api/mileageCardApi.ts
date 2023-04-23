@@ -24,7 +24,7 @@ export const getMileageCarsFromAVApi = async (
   modelId: number | null,
   generationId: number | null,
   year: number | string | null,
-) => {
+) => {  
   const response = await $avByApi.get(`/offer-types/cars/price-statistics?brand=${brandId}&generation=${generationId}&model=${modelId}&year=${year}`);
 
   return response.data;

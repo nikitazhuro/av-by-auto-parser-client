@@ -99,13 +99,13 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
             for (let q = yearFrom; q <= yearTo; q++) {
               const resultData = {
                 brandId: checkedBrandList[i],
-                modelId: models[j],
+                modelId: models[j].id,
                 generationId,
                 data: {},
               };
 
               try {
-                const mileageCars = await getMileageCarsFromAVApi(checkedBrandList[i], models[j], generationId, q)
+                const mileageCars = await getMileageCarsFromAVApi(checkedBrandList[i], models[j].id, generationId, q)
 
                 resultData.data = mileageCars;
 
@@ -120,7 +120,7 @@ const CustomSaveCarsModal: React.FC<ICustomSaveCarsModal> = ({
               modelId: models[j].id,
               generationId,
               data: {},
-            };
+            };            
 
             try {
               const mileageCars = await getMileageCarsFromAVApi(checkedBrandList[i], models[j].id, generationId, yearFrom || yearTo);
