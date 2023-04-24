@@ -20,6 +20,7 @@ interface ISoldAutoPrice {
 }
 
 export interface ISoldAuto {
+  id: number;
   publishedAt: string;
   removedAt: string;
   photos: Array<any>;

@@ -1,20 +1,61 @@
-import { Col } from "antd";
+import { Col, Modal } from "antd";
 
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 
 import classes from './CarGalleryItem.module.css';
 
 import { ISoldAuto } from "../../pages/Transport/store/transportApi";
+import { deleteCarFromDatabase } from "../../api/mileageCardApi";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { autoFilterSliceActions } from "../../pages/Transport/store/autoFilterSlice";
+
+const { confirm } = Modal;
 
 interface ICarGallaryItem {
   car: ISoldAuto;
+  listUUID: string;
 }
 
 const CarGallaryItem: React.FC<ICarGallaryItem> = ({
   car,
+  listUUID,
 }) => {
+  const dispatch = useAppDispatch();
+  const { setTriggerToRefetchCars } = autoFilterSliceActions;
 
-  const daysOnSold = Math.ceil((Date.parse(car.removedAt) - Date.parse(car.publishedAt)) / 1000 / 60 / 60 / 24)
+  const daysOnSold = Math.ceil((Date.parse(car.removedAt) - Date.parse(car.publishedAt)) / 1000 / 60 / 60 / 24);
+
+  const showConfirmDeleteModal = () => {
+    confirm({
+      title: 'Are you sure delete this car?',
+      icon: <ExclamationCircleFilled />,
+      content: 'Your actions will lead to the removal of this car from the database',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        deleteCarRequest();
+      },
+    });
+  }
+
+  const deleteCarRequest = async () => {
+    const config = {
+      uuid: listUUID,
+      carId: car.id,
+    };
+
+    try {
+      await deleteCarFromDatabase(config).then(() => {
+        dispatch(setTriggerToRefetchCars(true));
+      });
+
+    } catch (error) {
+      
+    } finally {
+
+    }
+  }
 
   return (
     <Col className={classes.card}>
@@ -28,7 +69,7 @@ const CarGallaryItem: React.FC<ICarGallaryItem> = ({
             </a>
           </Col>
           <Col className={classes.basket}>
-            <DeleteOutlined size={1.5} />
+            <DeleteOutlined onClick={showConfirmDeleteModal} size={1.5} />
           </Col>
         </Col>
         <Col>

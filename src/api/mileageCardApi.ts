@@ -41,3 +41,9 @@ export const getMileageCarsFromLocalhost = async (data: any) => {
 
   return response.data;
 };
+
+export const deleteCarFromDatabase = async (data: { uuid: string, carId: number}) => {
+  const response = await $localhost.post<Array<IMileageCars>>(`/mileage-cars/delete`, data);
+
+  return response.data;
+};

@@ -125,7 +125,7 @@ const LastSoldAutoGallery = () => {
             <h2>Last sold:</h2>
             <Row className={classes.gallary}>
               {yearData.data?.lastSoldCars?.map((car) => (
-                <CarGallaryItem key={car.id} car={car} />
+                <CarGallaryItem key={car.id} car={car} listUUID={yearData.uuid} />
               ))}
             </Row>
           </Row>

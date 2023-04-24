@@ -5,6 +5,7 @@ export interface IMileageCarsData {
 }
 
 export interface IMileageCars {
+  uuid: string;
   brand: number;
   generation: number;
   model: number;
