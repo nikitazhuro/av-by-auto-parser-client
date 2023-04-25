@@ -55,8 +55,8 @@ const BrandModelsModalContent: React.FC<IModelModal> = ({
 
   const lastParseDate = (brandId: number | null, modelId: number) => {
     const brand = localStorage.getItem(`${brandId}`);
-    const modelList = brand ? JSON.parse(brand).models : []
-    const currentModel = modelList.find((model: any) => model.id === modelId)
+    const modelList = brand && JSON.parse(brand).models ? JSON.parse(brand).models : []
+    const currentModel = modelList?.find((model: any) => model.id === modelId)
 
     const parseDate = currentModel?.lastParseDate;
 
