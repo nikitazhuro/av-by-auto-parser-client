@@ -59,13 +59,13 @@ const CarGallaryItem: React.FC<ICarGallaryItem> = ({
 
   return (
     <Col className={classes.card}>
-      <img src={car?.photos[0]?.medium?.url} alt="photo" />
+      <img src={'http://localhost:5000/' + car?.photos[0] + '.jpg'} alt="photo" />
       <Col className={classes.description}>
         <Col className={classes.priceBlock}>
           <Col className={classes.price}>
             <a target="_blank" href={car.publicUrl}>
-              <span className={classes.price_byn}>{car.price?.byn?.amount} p.</span>
-              <span className={classes.price_usd}>~{car.price?.usd?.amount} $</span>
+              <span className={classes.price_byn}>{car?.data.price?.byn?.amount} p.</span>
+              <span className={classes.price_usd}>~{car?.data.price?.usd?.amount} $</span>
             </a>
           </Col>
           <Col className={classes.basket}>

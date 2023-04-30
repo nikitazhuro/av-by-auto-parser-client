@@ -22,14 +22,35 @@ const LastSoldAutoGallery = () => {
   const { setTriggerToRefetchCars } = autoFilterSliceActions;
 
   const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState<Array<IMileageCars>>([]);
+  const [data, setData] = useState<Array<Array<any>>>([]);
 
   const fetchData = async (config: any, triggerToRefetchCars?: boolean) => {
     setIsLoading(true)
 
     const response = await getMileageCarsFromLocalhost(config)
 
-    setData(response.sort((a, b) => a?.year - b?.year));
+    const result = [];
+
+    let custom = [];
+
+    response.sort((a, b) => a?.year - b?.year).forEach((el) => {
+      if (!custom.length) {
+        custom.push(el);
+      } else {
+        const lastEl = custom[custom.length - 1];
+
+        if (el.year === lastEl.year) {
+          custom.push(el);
+        } else {
+          result.push(custom)
+          custom = [el]
+        }
+      }
+    })
+
+    console.log(result);
+    
+    setData(result);
     setIsLoading(false)
 
     if (triggerToRefetchCars) {
@@ -37,30 +58,30 @@ const LastSoldAutoGallery = () => {
     }
   }
 
-  const priceData = useMemo(() => {
-    const result = data.map((cars) => {
-      const prices = cars.data.lastSoldCars
-        .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount }))
-        .sort((a, b) => a.usd - b.usd);
+  // const priceData = useMemo(() => {
+  //   const result = data.map((cars) => {
+  //     const prices = cars.data.lastSoldCars
+  //       .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount }))
+  //       .sort((a, b) => a.usd - b.usd);
 
-      if (prices) {
-        const min = prices[0];
-        const max = prices[prices.length - 1]
-        const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
-        const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
+  //     if (prices) {
+  //       const min = prices[0];
+  //       const max = prices[prices.length - 1]
+  //       const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
+  //       const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
 
-        return {
-          year: cars.year,
-          minPrice: min,
-          maxPrice: max,
-          mediumUSDPrice: midUSD,
-          mediumBYNPrice: midBYN,
-        }
-      }
-    })
+  //       return {
+  //         year: cars.year,
+  //         minPrice: min,
+  //         maxPrice: max,
+  //         mediumUSDPrice: midUSD,
+  //         mediumBYNPrice: midBYN,
+  //       }
+  //     }
+  //   })
 
-    return result;
-  }, [JSON.stringify(data)])
+  //   return result;
+  // }, [JSON.stringify(data)])
 
   useEffect(() => {
     if (brandId && generationId && modelId) {
@@ -91,12 +112,12 @@ const LastSoldAutoGallery = () => {
   return (
     <Spin spinning={isLoading}>
       {data.map((yearData) => (
-        yearData?.year && (
-          <Row key={yearData?.year} className={classes.mainContainer}>
+        yearData?.length && (
+          <Row key={yearData[0].year} className={classes.mainContainer}>
             <Row>
-              <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData.year}</span>} />
+              <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData[0].year}</span>} />
               <h2>Actual price:</h2>
-              <Col span={24} className={classes.priceList}>
+              {/* <Col span={24} className={classes.priceList}>
                 <Col span={8}>
                   Medium price - {yearData.data?.mediumPrice?.priceUsd} $ ~ {yearData.data?.mediumPrice?.priceByn} BYN
                 </Col>
@@ -106,12 +127,12 @@ const LastSoldAutoGallery = () => {
                 <Col span={8}>
                   Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
                 </Col>
-              </Col>
+              </Col> */}
             </Row>
             <Row className={classes.soldPrice}>
               <h2>Sold price:</h2>
               <Col span={24} className={classes.priceList}>
-                <Col span={8}>
+                {/* <Col span={8}>
                   Medium price - {priceData.find((price) => price?.year === yearData.year)?.mediumUSDPrice} $ ~ {priceData.find((price) => price?.year === yearData.year)?.mediumBYNPrice} BYN
                 </Col>
                 <Col span={8}>
@@ -119,12 +140,12 @@ const LastSoldAutoGallery = () => {
                 </Col>
                 <Col span={8}>
                   Maximum price - {priceData.find((price) => price?.year === yearData.year)?.maxPrice.usd} $ ~ {priceData.find((price) => price?.year === yearData.year)?.maxPrice.byn} BYN
-                </Col>
+                </Col> */}
               </Col>
             </Row>
             <h2>Last sold:</h2>
             <Row className={classes.gallary}>
-              {yearData.data?.lastSoldCars?.map((car) => (
+              {yearData?.map((car) => (
                 <CarGallaryItem key={car.id} car={car} listUUID={yearData.uuid} />
               ))}
             </Row>
