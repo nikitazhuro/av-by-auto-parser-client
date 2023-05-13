@@ -1,4 +1,4 @@
-import { Col, Row, Spin } from 'antd';
+import { Col, Divider, Row, Spin } from 'antd';
 import { useMemo, useState, useEffect } from 'react'
 
 import classes from './LastSoldAutoGallery.module.css';
@@ -46,7 +46,7 @@ const LastSoldAutoGallery = () => {
       }
     })
     
-    setData(listOfSortedCarsByYear);
+    setData(listOfSortedCarsByYear.length ? listOfSortedCarsByYear : [sortedCarsByYear]);
     setIsLoading(false)
 
     if (triggerToRefetchCars) {
@@ -128,9 +128,9 @@ const LastSoldAutoGallery = () => {
       {data.map((carsByYear) => (
         carsByYear?.length && (
           <Row key={carsByYear[0].year} className={classes.mainContainer}>
-            {/* <Row>
-              <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData[0].year}</span>} />
-              <h2>Actual price:</h2>
+            <Row>
+              <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{carsByYear[0].year}</span>} />
+              {/* <h2>Actual price:</h2>
               <Col span={24} className={classes.priceList}>
                 <Col span={8}>
                   Medium price - {yearData.data?.mediumPrice?.priceUsd} $ ~ {yearData.data?.mediumPrice?.priceByn} BYN
@@ -141,8 +141,8 @@ const LastSoldAutoGallery = () => {
                 <Col span={8}>
                   Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
                 </Col>
-              </Col>
-            </Row> */}
+              </Col> */}
+            </Row>
             <Row className={classes.soldPrice}>
               <h2>Sold price:</h2>
               <Col span={24} className={classes.priceList}>
