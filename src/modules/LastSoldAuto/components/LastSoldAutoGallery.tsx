@@ -1,5 +1,5 @@
-import { Col, Divider, Row, Spin } from 'antd';
-import { useMemo, useState } from 'react'
+import { Col, Row, Spin } from 'antd';
+import { useMemo, useState, useEffect } from 'react'
 
 import classes from './LastSoldAutoGallery.module.css';
 
@@ -7,9 +7,7 @@ import CarGallaryItem from '../../../components/CarGallaryItem/CarGallaryItem';
 
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { getAutoFilter, getTriggerToRefetchCars } from '../../../pages/Transport';
-import { useEffect } from 'react';
 import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
-import { IMileageCars } from '../../../api/dto';
 import { autoFilterSliceActions } from '../../../pages/Transport/store/autoFilterSlice';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 
@@ -27,30 +25,28 @@ const LastSoldAutoGallery = () => {
   const fetchData = async (config: any, triggerToRefetchCars?: boolean) => {
     setIsLoading(true)
 
-    const response = await getMileageCarsFromLocalhost(config)
+    const carsList = await getMileageCarsFromLocalhost(config)
+    
+    const listOfSortedCarsByYear: any[] = [];
 
-    const result = [];
+    let sortedCarsByYear: any[] = [];
 
-    let custom = [];
-
-    response.sort((a, b) => a?.year - b?.year).forEach((el) => {
-      if (!custom.length) {
-        custom.push(el);
+    carsList.sort((a, b) => a?.year - b?.year).forEach((car) => {
+      if (!sortedCarsByYear.length) {
+        sortedCarsByYear.push(car);
       } else {
-        const lastEl = custom[custom.length - 1];
+        const lastEl = sortedCarsByYear[sortedCarsByYear.length - 1];
 
-        if (el.year === lastEl.year) {
-          custom.push(el);
+        if (car.year === lastEl.year) {
+          sortedCarsByYear.push(car);
         } else {
-          result.push(custom)
-          custom = [el]
+          listOfSortedCarsByYear.push(sortedCarsByYear)
+          sortedCarsByYear = [car]
         }
       }
     })
-
-    console.log(result);
     
-    setData(result);
+    setData(listOfSortedCarsByYear);
     setIsLoading(false)
 
     if (triggerToRefetchCars) {
@@ -58,30 +54,48 @@ const LastSoldAutoGallery = () => {
     }
   }
 
-  // const priceData = useMemo(() => {
-  //   const result = data.map((cars) => {
-  //     const prices = cars.data.lastSoldCars
-  //       .map((car) => ({ usd: car.price.usd.amount, byn: car.price.byn.amount }))
-  //       .sort((a, b) => a.usd - b.usd);
+  const priceData = useMemo(() => {
+    const resultYearCollection: any = {};
 
-  //     if (prices) {
-  //       const min = prices[0];
-  //       const max = prices[prices.length - 1]
-  //       const midUSD = (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2);
-  //       const midBYN = (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2);
+    for (let i = 0; i < data.length; i++) {
+      const year = data[i][0]?.year;
 
-  //       return {
-  //         year: cars.year,
-  //         minPrice: min,
-  //         maxPrice: max,
-  //         mediumUSDPrice: midUSD,
-  //         mediumBYNPrice: midBYN,
-  //       }
-  //     }
-  //   })
+      if (year) {
+        let prices: { byn: number, usd: number}[] = [];
 
-  //   return result;
-  // }, [JSON.stringify(data)])
+        data[i].forEach((car) => {
+          const soldPrice = {
+            byn: 0,
+            usd: 0,
+          }
+        
+          if (car?.data?.price?.byn?.amount) {
+            soldPrice.byn = car.data.price.byn.amount
+          }
+          if (car?.data?.price?.usd?.amount) {
+            soldPrice.usd = car.data.price.usd.amount;
+          }
+
+          if (soldPrice.byn || soldPrice.usd) {
+            prices.push(soldPrice)
+          }
+        })
+
+        prices = prices.sort((a, b) => a.usd - b.usd);
+        
+        resultYearCollection[year] = {
+          mediumPrice: {
+            usd: (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2),
+            byn: (prices.reduce((a, b) => a + b.byn, 0) / prices.length).toFixed(2)
+          },
+          minPrice: prices[0],
+          maxPrice: prices[prices.length - 1],
+        }
+      }
+    }
+
+    return resultYearCollection;
+  }, [JSON.stringify(data)])
 
   useEffect(() => {
     if (brandId && generationId && modelId) {
@@ -111,13 +125,13 @@ const LastSoldAutoGallery = () => {
 
   return (
     <Spin spinning={isLoading}>
-      {data.map((yearData) => (
-        yearData?.length && (
-          <Row key={yearData[0].year} className={classes.mainContainer}>
-            <Row>
+      {data.map((carsByYear) => (
+        carsByYear?.length && (
+          <Row key={carsByYear[0].year} className={classes.mainContainer}>
+            {/* <Row>
               <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{yearData[0].year}</span>} />
               <h2>Actual price:</h2>
-              {/* <Col span={24} className={classes.priceList}>
+              <Col span={24} className={classes.priceList}>
                 <Col span={8}>
                   Medium price - {yearData.data?.mediumPrice?.priceUsd} $ ~ {yearData.data?.mediumPrice?.priceByn} BYN
                 </Col>
@@ -127,26 +141,26 @@ const LastSoldAutoGallery = () => {
                 <Col span={8}>
                   Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
                 </Col>
-              </Col> */}
-            </Row>
+              </Col>
+            </Row> */}
             <Row className={classes.soldPrice}>
               <h2>Sold price:</h2>
               <Col span={24} className={classes.priceList}>
-                {/* <Col span={8}>
-                  Medium price - {priceData.find((price) => price?.year === yearData.year)?.mediumUSDPrice} $ ~ {priceData.find((price) => price?.year === yearData.year)?.mediumBYNPrice} BYN
+                <Col span={8}>
+                  Medium price - {priceData[carsByYear[0].year].mediumPrice.usd} $ ~ {priceData[carsByYear[0].year].mediumPrice.byn} BYN
                 </Col>
                 <Col span={8}>
-                  Minimum price - {priceData.find((price) => price?.year === yearData.year)?.minPrice.usd} $ ~ {priceData.find((price) => price?.year === yearData.year)?.minPrice.byn} BYN
+                  Minimum price - {priceData[carsByYear[0].year].minPrice.usd} $ ~ {priceData[carsByYear[0].year].minPrice.byn} BYN
                 </Col>
                 <Col span={8}>
-                  Maximum price - {priceData.find((price) => price?.year === yearData.year)?.maxPrice.usd} $ ~ {priceData.find((price) => price?.year === yearData.year)?.maxPrice.byn} BYN
-                </Col> */}
+                  Maximum price - {priceData[carsByYear[0].year].maxPrice.usd} $ ~ {priceData[carsByYear[0].year].maxPrice.byn} BYN
+                </Col>
               </Col>
             </Row>
             <h2>Last sold:</h2>
             <Row className={classes.gallary}>
-              {yearData?.map((car) => (
-                <CarGallaryItem key={car.id} car={car} listUUID={yearData.uuid} />
+              {carsByYear?.map((car) => (
+                <CarGallaryItem key={car.id} car={car} />
               ))}
             </Row>
           </Row>

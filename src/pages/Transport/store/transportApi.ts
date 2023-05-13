@@ -20,12 +20,24 @@ interface ISoldAutoPrice {
 }
 
 export interface ISoldAuto {
-  id: number;
-  publishedAt: string;
-  removedAt: string;
-  photos: Array<any>;
-  price: ISoldAutoPrice;
-  publicUrl: string;
+  uuid: string;
+  brandUUID: string;
+  createdAt: string;
+  customIds: {
+    avby: {
+      brandId: number;
+      modelId: number;
+      generationId: number;
+      carId: number;
+    }
+  }
+  data: any;
+  generation: string;
+  mileage_km: string;
+  modelUUID: string;
+  photos: Array<string>;
+  updatedAt: string
+  year: number
 }
 
 export interface ISoldAutoMediumPrice {
