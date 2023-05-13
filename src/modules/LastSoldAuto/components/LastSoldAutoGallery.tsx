@@ -45,8 +45,12 @@ const LastSoldAutoGallery = () => {
         }
       }
     })
-    
-    setData(listOfSortedCarsByYear.length ? listOfSortedCarsByYear : [sortedCarsByYear]);
+
+    if (sortedCarsByYear.length) {
+      listOfSortedCarsByYear.push(sortedCarsByYear)
+    }
+ 
+    setData(listOfSortedCarsByYear);
     setIsLoading(false)
 
     if (triggerToRefetchCars) {
