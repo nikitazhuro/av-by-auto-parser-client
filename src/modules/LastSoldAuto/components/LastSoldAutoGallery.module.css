@@ -17,3 +17,8 @@
   font-size: 16px;
   color: #1890ff;
 }
+.emptyBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

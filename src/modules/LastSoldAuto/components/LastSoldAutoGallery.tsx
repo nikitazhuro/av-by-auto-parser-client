@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Spin } from 'antd';
+import { Col, Divider, Empty, Row, Spin } from 'antd';
 import { useMemo, useState, useEffect } from 'react'
 
 import classes from './LastSoldAutoGallery.module.css';
@@ -170,6 +170,11 @@ const LastSoldAutoGallery = () => {
           </Row>
         )
       ))}
+      {!data.length && (
+        <Row className={classes.emptyBlock}>
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        </Row>
+      )}
     </Spin>
   )
 }
