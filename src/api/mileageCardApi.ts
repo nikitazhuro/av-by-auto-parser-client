@@ -47,3 +47,15 @@ export const deleteCarFromDatabase = async (uuid: string) => {
 
   return response.data;
 };
+
+export const fetchMileageCarsOnBackend = async () => {
+  const response = await $localhost.get(`/mileage-cars/fetch-all?withPhotos=0`);
+
+  return response.data;
+}
+
+export const fetchMileageCarsOnBackendWithPhotos = async () => {
+  const response = await $localhost.get(`/mileage-cars/fetch-all?withPhotos=1`);
+
+  return response.data;
+}

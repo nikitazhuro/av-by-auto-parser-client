@@ -1,0 +1,13 @@
+.fetchAllCars {
+  margin-right: 0.25rem;
+}
+
+.confirmFooter {
+  display: flex;
+  justify-content: end;
+  margin-top: 0.5rem;
+}
+
+.saveBtn {
+  margin: 0 0.25rem;
+}

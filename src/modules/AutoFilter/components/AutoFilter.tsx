@@ -7,11 +7,11 @@ import AutoModelSelect from '../../../components/AutoFilterSelects/AutoModelSele
 import AutoGenerationSelect from '../../../components/AutoFilterSelects/AutoGenerationSelect';
 import AutoYearSelect from '../../../components/AutoFilterSelects/AutoYearSelect';
 import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
+import FetchAllCars from './FetchAllCars/FetchAllCars';
 
 import { useGetBrandsQuery } from '../../../pages/Transport/store/transportApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { getBrandId, getGenerationId, getModelId } from '../../../pages/Transport';
-import CustomSaveCarsModal from './CustomSaveCarsModal/CustomSaveCarsModal';
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
@@ -27,7 +27,7 @@ const AutoBrandFilter = () => {
           Cars filter:
         </span>
         <Col>
-          <CustomSaveCarsModal brands={data} />
+          <FetchAllCars />
           <SaveCarsFromOptions />
         </Col>
       </Col>

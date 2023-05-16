@@ -95,6 +95,7 @@ const SaveCarsFromOptions = () => {
   return (
     <Button
       type="primary"
+      size="small"
       disabled={!generationId || !brandId || !modelId}
       style={{
         marginRight: '0.5rem'
