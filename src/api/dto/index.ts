@@ -14,3 +14,10 @@ export interface IMileageCars {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IFetchMileageCarsOnBackendQuery {
+  withPhotos: number;
+  brand?: number | null;
+  model?: number | null;
+  generation?: number | null;
+}

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import classes from './FetchAllCars.module.css';
 
-import { fetchMileageCarsOnBackend, fetchMileageCarsOnBackendWithPhotos } from "../../../../api/mileageCardApi";
+import { fetchMileageCarsOnBackend } from "../../../../api/mileageCardApi";
 import { useSpeech } from "../../../../hooks/useSpeech";
 
 const FetchAllCars = () => {
@@ -17,7 +17,7 @@ const FetchAllCars = () => {
     speak('я закончил парсинг твоих ржавых корыт кожаный ублюдок')
     messageApi.open({
       type: 'success',
-      content: 'This is a success message',
+      content: 'Fetching complete successfully',
     });
   };
 
@@ -33,17 +33,10 @@ const FetchAllCars = () => {
     closeModal();
     fetchingMessage();
 
-    if (withPhotosCheckbox) {
-      await fetchMileageCarsOnBackendWithPhotos();
+    await fetchMileageCarsOnBackend({ withPhotos: withPhotosCheckbox ? 1 : 0 });
 
-      messageApi.destroy()
-      success()
-    } else {
-      await fetchMileageCarsOnBackend();
-
-      messageApi.destroy()
-      success()
-    }
+    messageApi.destroy()
+    success()
   }
 
   const openModal = () => {
