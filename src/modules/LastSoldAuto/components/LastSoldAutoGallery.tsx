@@ -11,7 +11,13 @@ import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
 import { autoFilterSliceActions } from '../../../pages/Transport/store/autoFilterSlice';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 
-const LastSoldAutoGallery = () => {
+interface ILastSoldAutoGallery {
+  sortOption: string;
+}
+
+const LastSoldAutoGallery: React.FC<ILastSoldAutoGallery> = ({
+  sortOption,
+}) => {
   const dispatch = useAppDispatch();
 
   const { brandId, generationId, modelId, year } = useTypedSelector(getAutoFilter);
@@ -26,7 +32,7 @@ const LastSoldAutoGallery = () => {
     setIsLoading(true)
 
     const carsList = await getMileageCarsFromLocalhost(config)
-    
+
     const listOfSortedCarsByYear: any[] = [];
 
     let sortedCarsByYear: any[] = [];
@@ -40,16 +46,16 @@ const LastSoldAutoGallery = () => {
         if (car.year === lastEl.year) {
           sortedCarsByYear.push(car);
         } else {
-          listOfSortedCarsByYear.push(sortedCarsByYear)
+          listOfSortedCarsByYear.push(sortedCarsByYear);
           sortedCarsByYear = [car]
         }
       }
     })
 
     if (sortedCarsByYear.length) {
-      listOfSortedCarsByYear.push(sortedCarsByYear)
+      listOfSortedCarsByYear.push(sortedCarsByYear);
     }
- 
+
     setData(listOfSortedCarsByYear);
     setIsLoading(false)
 
@@ -65,14 +71,14 @@ const LastSoldAutoGallery = () => {
       const year = data[i][0]?.year;
 
       if (year) {
-        let prices: { byn: number, usd: number}[] = [];
+        let prices: { byn: number, usd: number }[] = [];
 
         data[i].forEach((car) => {
           const soldPrice = {
             byn: 0,
             usd: 0,
           }
-        
+
           if (car?.data?.price?.byn?.amount) {
             soldPrice.byn = car.data.price.byn.amount
           }
@@ -86,7 +92,7 @@ const LastSoldAutoGallery = () => {
         })
 
         prices = prices.sort((a, b) => a.usd - b.usd);
-        
+
         resultYearCollection[year] = {
           mediumPrice: {
             usd: (prices.reduce((a, b) => a + b.usd, 0) / prices.length).toFixed(2),
@@ -100,6 +106,21 @@ const LastSoldAutoGallery = () => {
 
     return resultYearCollection;
   }, [JSON.stringify(data)])
+
+  const sortedCars = useMemo(() => {
+    return data.map((carsPerYear) => {
+      switch (sortOption) {
+        case 'date':
+          console.log(carsPerYear);
+
+          return carsPerYear.sort((a, b) => new Date(b.data.removedAt).valueOf() - new Date(a.data.removedAt).valueOf())
+        case 'price1':
+          return carsPerYear.sort((a, b) => b.data.price.usd.amount - a.data.price.usd.amount)
+        case 'price2':
+          return carsPerYear.sort((a, b) => a.data.price.usd.amount - b.data.price.usd.amount)
+      }
+    })
+  }, [data, sortOption]);
 
   useEffect(() => {
     if (brandId && generationId && modelId) {
@@ -129,23 +150,11 @@ const LastSoldAutoGallery = () => {
 
   return (
     <Spin spinning={isLoading}>
-      {data.map((carsByYear) => (
+      {sortedCars.map((carsByYear) => (
         carsByYear?.length && (
           <Row key={carsByYear[0].year} className={classes.mainContainer}>
             <Row>
               <Divider style={{ margin: '2.5rem 0' }} children={<span style={{ color: "#ff4d4f" }}>{carsByYear[0].year}</span>} />
-              {/* <h2>Actual price:</h2>
-              <Col span={24} className={classes.priceList}>
-                <Col span={8}>
-                  Medium price - {yearData.data?.mediumPrice?.priceUsd} $ ~ {yearData.data?.mediumPrice?.priceByn} BYN
-                </Col>
-                <Col span={8}>
-                  Minimum price - {yearData.data?.mediumPrice?.minPriceUsd} $
-                </Col>
-                <Col span={8}>
-                  Maximum price - {yearData.data?.mediumPrice?.maxPriceUsd} $
-                </Col>
-              </Col> */}
             </Row>
             <Row className={classes.soldPrice}>
               <h2>Sold price:</h2>
@@ -170,7 +179,7 @@ const LastSoldAutoGallery = () => {
           </Row>
         )
       ))}
-      {!data.length && (
+      {!sortedCars.length && (
         <Row className={classes.emptyBlock}>
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
         </Row>

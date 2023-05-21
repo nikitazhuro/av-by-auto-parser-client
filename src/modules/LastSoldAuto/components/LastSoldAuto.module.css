@@ -20,3 +20,18 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.sort {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.sort__title {
+  color: gray;
+  margin-bottom: 0.25rem;
+}
+
+.sort__select {
+  width: 160px;
+}
