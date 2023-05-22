@@ -1,3 +1,3 @@
-import LastSoldAuto from "./components/LastSoldAuto";
+import LastSoldAuto from "./components/MileageCars";
 
 export default LastSoldAuto;

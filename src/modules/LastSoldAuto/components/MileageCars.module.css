@@ -2,7 +2,6 @@
   font-size: 36px;
   font-weight: 600;
   color: #1890ff;
-  margin-bottom: 1.5rem;
 }
 
 .carsList {
@@ -15,21 +14,40 @@
   display: flex;
 }
 
-.carsListHeader {
+.options {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-.sort {
+.carsListHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.carsListTablesViewOption {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  color: gray;
+}
+
+.options button {
+  width: fit-content;
+}
+
+.sort, .tableView {
   display: flex;
   flex-direction: column;
   width: fit-content;
 }
 
-.sort__title {
+.sort__title, .tableView__title {
   color: gray;
   margin-bottom: 0.25rem;
+}
+.tableView__title_tag {
+  margin-left: 0.25rem;
+  margin-right: 0;
 }
 
 .sort__select {

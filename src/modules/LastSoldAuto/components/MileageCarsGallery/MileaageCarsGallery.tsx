@@ -1,68 +1,21 @@
 import { Col, Divider, Empty, Row, Spin } from 'antd';
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo } from 'react'
 
-import classes from './LastSoldAutoGallery.module.css';
+import classes from './MileageCarsGallery.module.css';
 
-import CarGallaryItem from '../../../components/CarGallaryItem/CarGallaryItem';
+import CarGallaryItem from '../../../../components/CarGallaryItem/CarGallaryItem';
 
-import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { getAutoFilter, getTriggerToRefetchCars } from '../../../pages/Transport';
-import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
-import { autoFilterSliceActions } from '../../../pages/Transport/store/autoFilterSlice';
-import { useAppDispatch } from '../../../hooks/useAppDispatch';
-
-interface ILastSoldAutoGallery {
+interface IMileaageCarsGallery {
   sortOption: string;
+  data: Array<Array<any>>
+  isLoading: boolean;
 }
 
-const LastSoldAutoGallery: React.FC<ILastSoldAutoGallery> = ({
+const MileageCarsGallery: React.FC<IMileaageCarsGallery> = ({
   sortOption,
+  data,
+  isLoading,
 }) => {
-  const dispatch = useAppDispatch();
-
-  const { brandId, generationId, modelId, year } = useTypedSelector(getAutoFilter);
-  const triggerToRefetchCars = useTypedSelector(getTriggerToRefetchCars)
-
-  const { setTriggerToRefetchCars } = autoFilterSliceActions;
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState<Array<Array<any>>>([]);
-
-  const fetchData = async (config: any, triggerToRefetchCars?: boolean) => {
-    setIsLoading(true)
-
-    const carsList = await getMileageCarsFromLocalhost(config)
-
-    const listOfSortedCarsByYear: any[] = [];
-
-    let sortedCarsByYear: any[] = [];
-
-    carsList.sort((a, b) => a?.year - b?.year).forEach((car) => {
-      if (!sortedCarsByYear.length) {
-        sortedCarsByYear.push(car);
-      } else {
-        const lastEl = sortedCarsByYear[sortedCarsByYear.length - 1];
-
-        if (car.year === lastEl.year) {
-          sortedCarsByYear.push(car);
-        } else {
-          listOfSortedCarsByYear.push(sortedCarsByYear);
-          sortedCarsByYear = [car]
-        }
-      }
-    })
-
-    if (sortedCarsByYear.length) {
-      listOfSortedCarsByYear.push(sortedCarsByYear);
-    }
-
-    setData(listOfSortedCarsByYear);
-    setIsLoading(false)
-
-    if (triggerToRefetchCars) {
-      dispatch(setTriggerToRefetchCars(false));
-    }
-  }
 
   const priceData = useMemo(() => {
     const resultYearCollection: any = {};
@@ -122,32 +75,6 @@ const LastSoldAutoGallery: React.FC<ILastSoldAutoGallery> = ({
     })
   }, [data, sortOption]);
 
-  useEffect(() => {
-    if (brandId && generationId && modelId) {
-      const config = {
-        brand: brandId,
-        generation: generationId,
-        model: modelId,
-        year,
-      };
-
-      fetchData(config)
-    }
-  }, [brandId, generationId, modelId, year])
-
-  useEffect(() => {
-    if (brandId && generationId && modelId && triggerToRefetchCars) {
-      const config = {
-        brand: brandId,
-        generation: generationId,
-        model: modelId,
-        year,
-      };
-
-      fetchData(config, triggerToRefetchCars)
-    }
-  }, [triggerToRefetchCars, brandId, generationId, modelId, year])
-
   return (
     <Spin spinning={isLoading}>
       {sortedCars.map((carsByYear) => (
@@ -188,4 +115,4 @@ const LastSoldAutoGallery: React.FC<ILastSoldAutoGallery> = ({
   )
 }
 
-export default LastSoldAutoGallery;
+export default MileageCarsGallery;
