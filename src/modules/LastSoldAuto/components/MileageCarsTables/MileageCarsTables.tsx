@@ -18,16 +18,14 @@ const MileageCarsTables: React.FC<IMileageCarsTables> = ({
 
   useEffect(() => {
     if (data.length) {
-      const newTabs = data.map((yearCars, i) => {
-        console.log(yearCars);
-        
+      let newTabs = [[], ...data].map((yearCars, i) => {        
         if (i === 0) {
           return ({
             label: 'All',
             key: '0',
             children: (
               <Row className={classes.mileageCarsTable}>
-                <MileageCarsTable data={data.flat(1)} />
+                <MileageCarsTable isLoading={isLoading} data={data.flat(1)} />
               </Row>
             ),
           })
@@ -37,14 +35,14 @@ const MileageCarsTables: React.FC<IMileageCarsTables> = ({
           key: yearCars[0].year,
           children: (
             <Row>
-              <MileageCarsTable data={yearCars} />
+              <MileageCarsTable isLoading={isLoading} data={yearCars} />
             </Row>
           )
         })
       })
       setTabs(newTabs);
     }
-  }, [data])
+  }, [data, isLoading])
   return (
     <Tabs
       style={{

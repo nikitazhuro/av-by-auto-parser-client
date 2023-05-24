@@ -1,0 +1,4 @@
+.datesColumn {
+  display: flex;
+  flex-direction: column;
+}

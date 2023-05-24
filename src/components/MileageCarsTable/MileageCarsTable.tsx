@@ -1,12 +1,17 @@
-import { Col, Image, Table } from "antd"
+import { Col, Image, Row, Table } from "antd"
 import dayjs from "dayjs";
+import { get } from 'lodash';
+
+import classes from './MileageCarsTable.module.css';
 
 interface ICustomTable {
-  data: Array<any>
+  data: Array<any>;
+  isLoading: boolean;
 }
 
 const MileageCarsTable: React.FC<ICustomTable> = ({
   data,
+  isLoading,
 }) => {
 
   const columns = [
@@ -33,31 +38,81 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       },
     },
     {
-      title: 'Published',
+      title: 'Dates',
       dataIndex: ['data', 'publishedAt'],
       key: 'publishedAt',
-      render: (cell: string) => dayjs(cell).format('YYYY-MM-DD, HH:mm')
+      sorter: (a: any, b: any) => {
+        const rmA = get(a, ['data', 'removedAt'], new Date())
+        const rmB = get(b, ['data', 'removedAt'], new Date())
+
+        if (new Date(rmA).valueOf() < new Date(rmB).valueOf()) {
+          return -1;
+        }
+        return 1
+      },
+
+      render: (_: any, row: any) => {
+        const published = get(row, ['data', 'publishedAt'], null);
+        const removed = get(row, ['data', 'removedAt'], null);
+
+        console.log(row);
+        
+        return (
+          <Row className={classes.datesColumn}>
+            <Col>
+              Rm - {removed ? dayjs(removed).format('YYYY-MM-DD, HH:mm') : 'No data'}
+            </Col>
+            <Col>
+              Pub - {published ? dayjs(published).format('YYYY-MM-DD, HH:mm') : 'No data'}
+            </Col>
+          </Row>
+        )
+      }
     },
     {
-      title: 'Removed',
-      dataIndex: ['data', 'removedAt'],
-      key: 'removedAt',
-      render: (cell: string) => dayjs(cell).format('YYYY-MM-DD, HH:mm')
-    },
-    {
-      title: 'Remove reason',
-      dataIndex: ['data', 'removeReason'],
-      key: 'removeReason',
+      title: 'Price',
+      dataIndex: ['data', 'price', 'usd', 'amount'],
+      key: 'price',
+      sorter: (a: any, b: any) => {
+        const priceA = get(a, ['data', 'price', 'usd', 'amount'], 0)
+        const priceB = get(b, ['data', 'price', 'usd', 'amount'], 0)
+
+        if (priceA < priceB) {
+          return -1;
+        }
+        return 1
+      },
+      render: (cell: any, row: any) => {
+        console.log(cell, row);
+        return (
+          <span>
+            {cell} $
+          </span>
+        )
+      },
     },
     {
       title: 'Mileage (km)',
       dataIndex: 'mileage_km',
       key: 'mileage_km',
+      sorter: (a: any, b: any) => +a.mileage_km - +b.mileage_km,
     },
     {
       title: 'Days on sold',
       dataIndex: 'address',
       key: 'address',
+      sorter: (a: any, b: any) => {
+        const daysOnSoldA = Math.ceil((
+          Date.parse(a?.data.removedAt) - Date.parse(a?.data.publishedAt)
+        ) / 1000 / 60 / 60 / 24);
+        const daysOnSoldB = Math.ceil((
+          Date.parse(b?.data.removedAt) - Date.parse(b?.data.publishedAt)
+        ) / 1000 / 60 / 60 / 24);
+        if (daysOnSoldA < daysOnSoldB) {
+          return -1;
+        }
+        return 1
+      },
       render: (_: any, row: any) => {
         const daysOnSold = Math.ceil((
           Date.parse(row?.data.removedAt) - Date.parse(row?.data.publishedAt)
@@ -70,7 +125,15 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Engine',
       dataIndex: ['data', 'properties'],
       key: 'engine_capacity',
-      render: (cell: Array<any>, ) => {
+      sorter: (a: any, b: any) => {
+        const engineA = +a.data.properties.find((e: any) => e.name === 'engine_capacity')?.value || 0;
+        const engineB = b.data.properties.find((e: any) => e.name === 'engine_capacity')?.value || 0;
+        if (engineA < engineB) {
+          return -1;
+        }
+        return 1
+      },
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'engine_capacity')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -80,7 +143,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Engine type',
       dataIndex: ['data', 'properties'],
       key: '"engine_type"',
-      render: (cell: Array<any>, ) => {
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'engine_type')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -90,7 +153,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Transmission',
       dataIndex: ['data', 'properties'],
       key: 'transmission_type',
-      render: (cell: Array<any>, ) => {
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'transmission_type')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -100,7 +163,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Body type',
       dataIndex: ['data', 'properties'],
       key: 'body_type',
-      render: (cell: Array<any>, ) => {
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'body_type')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -110,7 +173,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Color',
       dataIndex: ['data', 'properties'],
       key: 'color',
-      render: (cell: Array<any>, ) => {
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'color')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -120,7 +183,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Interior material',
       dataIndex: ['data', 'properties'],
       key: 'interior_material',
-      render: (cell: Array<any>, ) => {
+      render: (cell: Array<any>,) => {
         const engine = cell.find((e) => e.name === 'interior_material')
 
         return <div>{engine?.value || 'No data'}</div>
@@ -130,11 +193,12 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Year',
       dataIndex: 'year',
       key: 'year',
+      sorter: (a: any, b: any) => +a.year - +b.year,
     },
     {
       title: 'Actions',
       key: 'action',
-      dataIndex: ['data' ,'publicUrl'],
+      dataIndex: ['data', 'publicUrl'],
       render: (cell: string) => (
         <Col>
           <a href={cell} target="_blank">
@@ -145,7 +209,12 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
     },
   ];
   return (
-    <Table size="small" columns={columns} dataSource={data} />
+    <Table
+      loading={isLoading}
+      size="small"
+      columns={columns}
+      dataSource={data}
+    />
   )
 }
 
