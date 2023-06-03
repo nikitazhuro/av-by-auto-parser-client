@@ -123,70 +123,59 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
     },
     {
       title: 'Engine',
-      dataIndex: ['data', 'properties'],
+      dataIndex: ['data', 'properties', 'engine_capacity'],
       key: 'engine_capacity',
       sorter: (a: any, b: any) => {
-        const engineA = +a.data.properties.find((e: any) => e.name === 'engine_capacity')?.value || 0;
-        const engineB = b.data.properties.find((e: any) => e.name === 'engine_capacity')?.value || 0;
+        get(a, ['data', 'properties', 'engine_capacity', 'value'], 0)
+        const engineA = +get(a, ['data', 'properties', 'engine_capacity', 'value'], 0)
+        const engineB = +get(b, ['data', 'properties', 'engine_capacity', 'value'], 0)
         if (engineA < engineB) {
           return -1;
         }
         return 1
       },
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'engine_capacity')
-
-        return <div>{engine?.value || 'No data'}</div>
+      render: (cell: any,) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
       title: 'Engine type',
-      dataIndex: ['data', 'properties'],
-      key: '"engine_type"',
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'engine_type')
-
-        return <div>{engine?.value || 'No data'}</div>
+      dataIndex: ['data', 'properties', 'engine_type'],
+      key: 'engine_type',
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
       title: 'Transmission',
-      dataIndex: ['data', 'properties'],
+      dataIndex: ['data', 'properties', 'transmission_type'],
       key: 'transmission_type',
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'transmission_type')
-
-        return <div>{engine?.value || 'No data'}</div>
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
       title: 'Body type',
-      dataIndex: ['data', 'properties'],
+      dataIndex: ['data', 'properties', 'body_type'],
       key: 'body_type',
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'body_type')
-
-        return <div>{engine?.value || 'No data'}</div>
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
       title: 'Color',
-      dataIndex: ['data', 'properties'],
+      dataIndex: ['data', 'properties', 'color'],
       key: 'color',
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'color')
-
-        return <div>{engine?.value || 'No data'}</div>
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
       title: 'Interior material',
-      dataIndex: ['data', 'properties'],
+      dataIndex: ['data', 'properties', 'interior_material'],
       key: 'interior_material',
-      render: (cell: Array<any>,) => {
-        const engine = cell.find((e) => e.name === 'interior_material')
-
-        return <div>{engine?.value || 'No data'}</div>
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
       }
     },
     {
