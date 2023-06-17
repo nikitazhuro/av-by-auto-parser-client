@@ -41,6 +41,8 @@ const MileageCarsTables: React.FC<IMileageCarsTables> = ({
         })
       })
       setTabs(newTabs);
+    } else {
+      setTabs([])
     }
   }, [data, isLoading])
   return (

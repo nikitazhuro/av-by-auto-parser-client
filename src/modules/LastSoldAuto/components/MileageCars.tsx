@@ -39,12 +39,18 @@ const LastSoldAuto = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState<Array<Array<any>>>([]);
-
+  
   const fetchData = async (config: any, triggerToRefetchCars?: boolean) => {
     setIsLoading(true)
 
-    const carsList = await getMileageCarsFromLocalhost(config)
-
+    const carsList = await getMileageCarsFromLocalhost(config);
+    
+    if (!carsList.length) {      
+      setIsLoading(false);
+      setData([]);
+      return;
+    }
+    
     const listOfSortedCarsByYear: any[] = [];
 
     let sortedCarsByYear: any[] = [];
@@ -88,7 +94,7 @@ const LastSoldAuto = () => {
         config.filter = filterConfig;
       }
 
-      fetchData(config)
+      fetchData(config);
     }
   }, [brandId, generationId, modelId, year, filterConfig])
 
