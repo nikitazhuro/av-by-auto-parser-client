@@ -8,6 +8,7 @@ interface IInitialState {
   year: number | null;
   yearFrom: number | null;
   yearTo: number | null;
+  filterConfig: Object | null;
   triggerToRefetchCars: boolean;
 }
 
@@ -18,6 +19,7 @@ const initialState: IInitialState = {
   year: null,
   yearFrom: null,
   yearTo: null,
+  filterConfig: null,
   triggerToRefetchCars: false,
 }
 
@@ -65,6 +67,13 @@ const autoFilterSlice = createSlice({
     },
     clearYearTo: (state) => {
       state.yearTo = null;
+    },
+
+    setFilterConfig: (state, action) => {
+      state.filterConfig = action.payload;
+    },
+    clearFilterConfig: (state) => {
+      state.filterConfig = null
     },
 
     setTriggerToRefetchCars: (state, action) => {

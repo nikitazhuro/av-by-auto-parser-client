@@ -20,7 +20,6 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       dataIndex: 'Image',
       key: 'Image',
       render: (_: any, row: any) => {
-        console.log(row);
         return (
           <Image
             width={200}
@@ -54,8 +53,6 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       render: (_: any, row: any) => {
         const published = get(row, ['data', 'publishedAt'], null);
         const removed = get(row, ['data', 'removedAt'], null);
-
-        console.log(row);
         
         return (
           <Row className={classes.datesColumn}>
@@ -83,7 +80,6 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
         return 1
       },
       render: (cell: any, row: any) => {
-        console.log(cell, row);
         return (
           <span>
             {cell} $
@@ -158,6 +154,14 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       title: 'Body type',
       dataIndex: ['data', 'properties', 'body_type'],
       key: 'body_type',
+      render: (cell: any) => {
+        return <div>{cell?.value || 'No data'}</div>
+      }
+    },
+    {
+      title: 'Drive type',
+      dataIndex: ['data', 'properties', 'drive_type'],
+      key: 'drive_type',
       render: (cell: any) => {
         return <div>{cell?.value || 'No data'}</div>
       }

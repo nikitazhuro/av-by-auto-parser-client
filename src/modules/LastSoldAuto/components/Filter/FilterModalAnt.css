@@ -1,0 +1,12 @@
+.filterModal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding-bottom: 0;
+}
+
+.filterModal .ant-modal-content {
+  height: 100%;
+  border-radius: 0px;
+}

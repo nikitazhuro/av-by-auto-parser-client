@@ -64,8 +64,6 @@ const MileageCarsGallery: React.FC<IMileaageCarsGallery> = ({
     return data.map((carsPerYear) => {
       switch (sortOption) {
         case 'date':
-          console.log(carsPerYear);
-
           return carsPerYear.sort((a, b) => new Date(b.data.removedAt).valueOf() - new Date(a.data.removedAt).valueOf())
         case 'price1':
           return carsPerYear.sort((a, b) => b.data.price.usd.amount - a.data.price.usd.amount)

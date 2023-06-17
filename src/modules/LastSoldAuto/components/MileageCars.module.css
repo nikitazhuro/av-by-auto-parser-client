@@ -53,3 +53,8 @@
 .sort__select {
   width: 160px;
 }
+
+.filterMain {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}

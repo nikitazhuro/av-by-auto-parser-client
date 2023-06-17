@@ -10,6 +10,7 @@ import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { autoFilterSliceActions } from '../../../pages/Transport/store/autoFilterSlice';
 import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
 import MileageCarsGallery from './MileageCarsGallery/MileaageCarsGallery';
+import Filter from './Filter/Filter';
 
 const selectOptions = [
   { value: 'date', label: 'Removed date' },
@@ -18,7 +19,7 @@ const selectOptions = [
 ]
 
 const LastSoldAuto = () => {
-  const { brandId, generationId, modelId, year } = useTypedSelector(getAutoFilter);
+  const { brandId, generationId, modelId, year, filterConfig } = useTypedSelector(getAutoFilter);
 
   const [selectsortOption, setSelectSortOprion] = useState('date');
   const [tablesViewEnabled, setTablesViewEnabled] = useState(true);
@@ -76,16 +77,20 @@ const LastSoldAuto = () => {
   }
   useEffect(() => {
     if (brandId && generationId && modelId) {
-      const config = {
+      const config: any = {
         brand: brandId,
         generation: generationId,
         model: modelId,
         year,
       };
 
+      if (filterConfig) {
+        config.filter = filterConfig;
+      }
+
       fetchData(config)
     }
-  }, [brandId, generationId, modelId, year])
+  }, [brandId, generationId, modelId, year, filterConfig])
 
   useEffect(() => {
     if (brandId && generationId && modelId && triggerToRefetchCars) {
@@ -98,7 +103,7 @@ const LastSoldAuto = () => {
 
       fetchData(config, triggerToRefetchCars)
     }
-  }, [triggerToRefetchCars, brandId, generationId, modelId, year])  
+  }, [triggerToRefetchCars, brandId, generationId, modelId, year])
 
   return (
     showAutoGallery ? (
@@ -133,14 +138,17 @@ const LastSoldAuto = () => {
               unCheckedChildren="No"
             />
           </Col>
+          <Col className={classes.filterMain}>
+            <Filter />
+          </Col>
         </Col>
         {tablesViewEnabled
           ? <MileageCarsTables data={data} isLoading={isLoading} />
           : <MileageCarsGallery
-              data={data}
-              isLoading={isLoading}
-              sortOption={selectsortOption}
-            />
+            data={data}
+            isLoading={isLoading}
+            sortOption={selectsortOption}
+          />
         }
       </Row>
     )
