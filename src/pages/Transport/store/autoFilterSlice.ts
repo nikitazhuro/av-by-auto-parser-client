@@ -4,7 +4,7 @@ import { bindActionCreators, createSlice } from "@reduxjs/toolkit";
 interface IInitialState {
   brandId: number | null;
   modelId: number | null;
-  generationId: number | null;
+  generationIds: Array<number>;
   year: number | null;
   yearFrom: number | null;
   yearTo: number | null;
@@ -15,7 +15,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   brandId: null,
   modelId: null,
-  generationId: null,
+  generationIds: [],
   year: null,
   yearFrom: null,
   yearTo: null,
@@ -41,11 +41,11 @@ const autoFilterSlice = createSlice({
       state.modelId = null;
     },
   
-    setGenerationId: (state, action) => {
-      state.generationId = action.payload;
+    setGenerationIds: (state, action) => {
+      state.generationIds = action.payload;
     },
-    clearGenerationId: (state) => {
-      state.generationId = null;
+    clearGenerationIds: (state) => {
+      state.generationIds = [];
     },
 
     setYear: (state, action) => {
@@ -81,14 +81,14 @@ const autoFilterSlice = createSlice({
     },
 
     clearAllForNewBrand: (state) => {
-      state.generationId = null;
+      state.generationIds = [];
       state.modelId = null;
       state.year = null;
       state.yearFrom = null;
       state.yearTo = null;
     },
     clearAllForNewModel: (state) => {
-      state.generationId = null;
+      state.generationIds = [];
       state.year = null;
       state.yearFrom = null;
       state.yearTo = null;

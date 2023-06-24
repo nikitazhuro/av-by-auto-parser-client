@@ -19,12 +19,12 @@ const selectOptions = [
 ]
 
 const LastSoldAuto = () => {
-  const { brandId, generationId, modelId, year, filterConfig } = useTypedSelector(getAutoFilter);
+  const { brandId, generationIds, modelId, year, filterConfig } = useTypedSelector(getAutoFilter);
 
   const [selectsortOption, setSelectSortOprion] = useState('date');
   const [tablesViewEnabled, setTablesViewEnabled] = useState(true);
 
-  const showAutoGallery = brandId && generationId && modelId;
+  const showAutoGallery = brandId && generationIds.length && modelId;
 
   const onChangeSortHandler = (value: string) => {
     setSelectSortOprion(value);
@@ -82,10 +82,10 @@ const LastSoldAuto = () => {
     }
   }
   useEffect(() => {
-    if (brandId && generationId && modelId) {
+    if (brandId && generationIds.length && modelId) {
       const config: any = {
         brand: brandId,
-        generation: generationId,
+        generations: generationIds,
         model: modelId,
         year,
       };
@@ -96,20 +96,37 @@ const LastSoldAuto = () => {
 
       fetchData(config);
     }
-  }, [brandId, generationId, modelId, year, filterConfig])
+  }, [
+    brandId,
+    generationIds,
+    modelId,
+    year,
+    filterConfig,
+  ])
 
   useEffect(() => {
-    if (brandId && generationId && modelId && triggerToRefetchCars) {
+    if (
+      brandId
+      && generationIds.length
+      && modelId
+      && triggerToRefetchCars
+    ) {
       const config = {
         brand: brandId,
-        generation: generationId,
+        generations: generationIds,
         model: modelId,
         year,
       };
 
       fetchData(config, triggerToRefetchCars)
     }
-  }, [triggerToRefetchCars, brandId, generationId, modelId, year])
+  }, [
+    triggerToRefetchCars,
+    brandId,
+    generationIds,
+    modelId,
+    year,
+  ])
 
   return (
     showAutoGallery ? (

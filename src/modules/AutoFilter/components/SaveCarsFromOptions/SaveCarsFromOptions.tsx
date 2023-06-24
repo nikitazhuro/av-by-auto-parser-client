@@ -18,7 +18,7 @@ const SaveCarsFromOptions = () => {
   const [withPhotosCheckbox, setWithPhotosCheckbox] = useState(true);
 
 
-  const { generationId, brandId, modelId } = useTypedSelector(getAutoFilter);
+  const { generationIds, brandId, modelId } = useTypedSelector(getAutoFilter);
 
   const { setTriggerToRefetchCars } = autoFilterSliceActions;
 
@@ -26,7 +26,7 @@ const SaveCarsFromOptions = () => {
     const config = {
       brand: brandId,
       model: modelId,
-      generation: generationId,
+      generations: generationIds,
       withPhotos: withPhotosCheckbox ? 1 : 0,
     }
 

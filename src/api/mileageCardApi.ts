@@ -22,15 +22,20 @@ export const deleteCarFromDatabase = async (uuid: string) => {
 export const fetchMileageCarsOnBackend = async ({
   brand,
   model,
-  generation,
+  generations,
   withPhotos,
 }: IFetchMileageCarsOnBackendQuery) => {
   let url = '/mileage-cars/fetch-all?';
 
+  console.log(  brand,
+    model,
+    generations,
+    withPhotos,);
+  
   url = url + (withPhotos ? 'withPhotos=1' : 'withPhotos=0')
   url = url + (brand || brand === 0 ? `&brand=${brand}` : '')
   url = url + (model || model === 0 ? `&model=${model}` : '')
-  url = url + (generation || generation === 0 ? `&generation=${generation}` : '')
+  url = url + (generations && generations.length ? `&generations=${generations}` : '')
   
   const response = await $localhost.get(url);
 

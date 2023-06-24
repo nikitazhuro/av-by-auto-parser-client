@@ -5,13 +5,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useGetGenerationsQuery } from '../../pages/Transport/store/transportApi';
 import { useGetCarsFilterActions } from '../../pages/Transport/store/autoFilterSlice';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { getBrandId, getGenerationId, getModelId } from '../../pages/Transport';
+import { getBrandId, getGenerationIds, getModelId } from '../../pages/Transport';
 
 const AutoGenerationSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const {
-    setGenerationId,
+    setGenerationIds,
     clearYear,
     setYearFrom,
     setYearTo,
@@ -19,22 +19,21 @@ const AutoGenerationSelect = () => {
 
   const brandId = useTypedSelector(getBrandId)
   const modelId = useTypedSelector(getModelId)
-  const generationId = useTypedSelector(getGenerationId)
+  const generationIds = useTypedSelector(getGenerationIds)
 
   const { data = [], isLoading } = useGetGenerationsQuery({ brandId, modelId })
-
+  
   const selectOptions = useMemo(() => {
     return data.map((e) => ({ value: e.id, label: e.name }))
   }, [data]);
 
-  const onChange = (value: number) => {
-    setGenerationId(value);
+  const onChange = (value: Array<number>) => {
+    setGenerationIds(value);
 
     setSearchParams((prev) => {
       prev.delete('generation')
-      prev.delete('year');
 
-      if (value) {
+      if (value.length) {
         prev.append('generation', `${value}`)
       }
       return prev
@@ -44,19 +43,19 @@ const AutoGenerationSelect = () => {
   }
 
   useEffect(() => {
-    const selectedGen = data.find((gen) => gen.id === generationId);
+    const selectedGen = data.find((gen) => gen.id === generationIds[0]);
 
     if (selectedGen) {
       setYearFrom(selectedGen.yearFrom);
       setYearTo(selectedGen.yearTo);
     }
-  }, [data, generationId])
+  }, [data, generationIds.length])
 
   useEffect(() => {
     const generationIDFromParams = searchParams.get('generation');
-
+        
     if (generationIDFromParams) {
-      setGenerationId(+generationIDFromParams);
+      setGenerationIds(generationIDFromParams.split(',').map((e) => +e));
     }
   }, []);
 
@@ -67,8 +66,9 @@ const AutoGenerationSelect = () => {
       </span>
       <Select
         loading={isLoading}
-        value={generationId}
+        value={generationIds}
         showSearch
+        mode='multiple'
         style={{ width: 160 }}
         placeholder="Select a generation"
         optionFilterProp="children"

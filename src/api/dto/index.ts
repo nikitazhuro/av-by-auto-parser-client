@@ -19,5 +19,5 @@ export interface IFetchMileageCarsOnBackendQuery {
   withPhotos: number;
   brand?: number | null;
   model?: number | null;
-  generation?: number | null;
+  generations?: number[];
 }
