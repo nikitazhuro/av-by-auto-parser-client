@@ -10,11 +10,13 @@ const Home = () => {
       height: '100%',
     }}>
       <Col style={{
-        color: '#1677ff',
+        color: '#fff',
         fontSize: '52px',
-        fontWeight: '600'
+        fontWeight: '700',
+        textTransform: 'uppercase',
+        fontFamily: "Bebas Neue Bold",
       }}>
-        Av.by auto parser
+        auto parser
       </Col>
     </Row>
   )

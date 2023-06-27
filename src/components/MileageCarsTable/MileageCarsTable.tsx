@@ -205,6 +205,10 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
     <Table
       loading={isLoading}
       size="small"
+      style={{
+        height: '100%',
+        overflow: 'auto',
+      }}
       columns={columns}
       dataSource={data}
     />

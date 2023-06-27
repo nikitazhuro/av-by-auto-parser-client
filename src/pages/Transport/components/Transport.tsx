@@ -1,13 +1,28 @@
+import { Layout, theme } from 'antd';
+import { useState } from 'react';
 import AutoFilter from '../../../modules/AutoFilter';
-import LastSoldAuto from '../../../modules/LastSoldAuto';
+import MileageCars from '../../../modules/MileageCars';
+
+const { Content } = Layout;
 
 const Transport = () => {
-  return (
-    <>
-      <AutoFilter />
-      <LastSoldAuto />
-    </>
+  const { token: { colorBgContainer } } = theme.useToken();
 
+  return (
+    <Content style={{ margin: '24px' }}>
+      <AutoFilter />
+      <MileageCars />
+      {/* <div
+        style={{
+          padding: 24,
+          minHeight: 360,
+          backgroundColor: "#33323D",
+          height: 'calc(100vh - 146px)',
+          marginTop: '0.5rem',
+        }}>
+        <MileageCars />
+      </div> */}
+    </Content>
   )
 }
 

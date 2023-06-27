@@ -46,20 +46,21 @@ function App() {
   };
 
   return (
-    <Layout hasSider style={{ minHeight: '100vh' }}>
+    <Layout hasSider style={{ minHeight: '100vh', backgroundColor: '#121224' }}>
       <SideMenu
         collapsed={collapsed}
         setCollapsed={setCollapsed}
         selectedRoute={selectedRoute}
         setSelectedRoute={setSelectedRoute}
       />
-      <Layout className="site-layout" style={{ marginLeft: collapsed ? 80 : 200, transition: 'all 0.3s ease' }}>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '16px' }}>
-          <div style={{ padding: 24, minHeight: 360, background: colorBgContainer, height: '100%' }}>
-            <AppRouter />
-          </div>
-        </Content>
+      <Layout
+        className="site-layout"
+        style={{
+          marginLeft: collapsed ? 80 : 200,
+          transition: 'all 0.3s ease',
+          backgroundColor: '#121224',
+        }}>
+        <AppRouter />
       </Layout>
     </Layout>
   );

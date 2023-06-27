@@ -44,10 +44,7 @@ const AutoModelSelect = () => {
   }, []);
 
   return (
-    <Col style={{ display: 'flex', flexDirection: 'column' }}>
-      <span style={{ color: 'gray ', marginBottom: '0.25rem' }}>
-        Model:
-      </span>
+    <Col style={{ display: 'flex', flexDirection: 'column', margin: '0 0.5rem' }}>
       <Select
         loading={isLoading}
         showSearch

@@ -1,35 +1,17 @@
-import { Col, Row, Select, Switch, Tag } from 'antd';
+import { Row } from 'antd';
 
 import classes from './MileageCars.module.css';
-
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { getAutoFilter, getTriggerToRefetchCars } from '../../../pages/Transport';
 import { useEffect, useState } from 'react';
-import MileageCarsTables from './MileageCarsTables/MileageCarsTables';
+import MileageCarsTable from './MileageCarsTable/MileageCarsTable';
 import { useAppDispatch } from '../../../hooks/useAppDispatch';
 import { autoFilterSliceActions } from '../../../pages/Transport/store/autoFilterSlice';
 import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
-import MileageCarsGallery from './MileageCarsGallery/MileaageCarsGallery';
-import Filter from './Filter/Filter';
 
-const selectOptions = [
-  { value: 'date', label: 'Removed date' },
-  { value: 'price1', label: 'Price (expensive first)' },
-  { value: 'price2', label: 'Price (cheap first)' },
-]
-
-const LastSoldAuto = () => {
+const MileageCars = () => {
   const { brandId, generationIds, modelId, year, filterConfig } = useTypedSelector(getAutoFilter);
-
-  const [selectsortOption, setSelectSortOprion] = useState('date');
-  const [tablesViewEnabled, setTablesViewEnabled] = useState(true);
-
   const showAutoGallery = brandId && generationIds.length && modelId;
-
-  const onChangeSortHandler = (value: string) => {
-    setSelectSortOprion(value);
-  }
-
 
   const dispatch = useAppDispatch();
 
@@ -131,52 +113,11 @@ const LastSoldAuto = () => {
   return (
     showAutoGallery ? (
       <Row className={classes.carsList}>
-        <Col className={classes.carsListHeader}>
-          <span className={classes.carsListTitle}>
-            Details:
-          </span>
-        </Col>
-        <Col span={24} className={classes.options}>
-          <Col span={6} className={classes.sort}>
-            <span className={classes.sort__title}>
-              Sort:
-            </span>
-            <Select
-              className={classes.sort__select}
-              defaultValue={selectsortOption}
-              onChange={onChangeSortHandler}
-              options={selectOptions}
-            />
-          </Col>
-          <Col span={6} className={classes.tableView}>
-            <span className={classes.tableView__title}>
-              Table's view
-              <Tag color="blue" bordered={false} className={classes.tableView__title_tag}>beta</Tag>
-              :
-            </span>
-            <Switch
-              checked={tablesViewEnabled}
-              onChange={() => setTablesViewEnabled((prev) => !prev)}
-              checkedChildren="Yes"
-              unCheckedChildren="No"
-            />
-          </Col>
-          <Col className={classes.filterMain}>
-            <Filter />
-          </Col>
-        </Col>
-        {tablesViewEnabled
-          ? <MileageCarsTables data={data} isLoading={isLoading} />
-          : <MileageCarsGallery
-            data={data}
-            isLoading={isLoading}
-            sortOption={selectsortOption}
-          />
-        }
+        <MileageCarsTable data={data} isLoading={isLoading} />
       </Row>
     )
       : null
   )
 }
 
-export default LastSoldAuto;
+export default MileageCars;

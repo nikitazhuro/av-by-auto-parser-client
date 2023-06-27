@@ -61,9 +61,6 @@ const AutoGenerationSelect = () => {
 
   return (
     <Col style={{ display: 'flex', flexDirection: 'column' }}>
-      <span style={{ color: 'gray ', marginBottom: '0.25rem' }}>
-        Generation:
-      </span>
       <Select
         loading={isLoading}
         value={generationIds}

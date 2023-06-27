@@ -204,16 +204,16 @@ const Filter = () => {
         open={isOpenFilter}
         onCancel={closeFilterHandler}
         onOk={closeFilterHandler}
-        width={350}
+        width={430}
         footer={(
           <Row style={{ display: 'flex' }}>
             <Col style={{ width: '30%', paddingRight: '0.15rem' }}>
-              <Button style={{ width: '100%' }} onClick={clearFiler}>
+              <Button className={classes.modalSubmit} onClick={clearFiler}>
                 Clear
               </Button>
             </Col>
             <Col style={{ width: '70%', paddingLeft: '0.15rem' }}>
-              <Button style={{ width: '100%', margin: 0 }} onClick={searchCars} type="primary">
+              <Button className={classes.modalSubmit} onClick={searchCars}>
                 Search
               </Button>
             </Col>
@@ -222,7 +222,6 @@ const Filter = () => {
       >
         <Col className={classes.priceBlock}>
           <Col className={classes.filterItem_title}>
-            <img src={dollar} width={16} height={16} />
             Price
           </Col>
           <Col style={{ display: 'flex' }}>
@@ -252,7 +251,6 @@ const Filter = () => {
         </Col>
         <Col className={classes.priceBlock}>
           <Col className={classes.filterItem_title}>
-            <img src={mileage} width={16} height={16} />
             Mileage
           </Col>
           <Col style={{ display: "flex" }}>
@@ -282,7 +280,6 @@ const Filter = () => {
         </Col>
         <Col className={classes.priceBlock}>
           <Col className={classes.filterItem_title}>
-            <img src={engine} width={16} height={16} />
             Engine
           </Col>
           <Col>
@@ -323,7 +320,6 @@ const Filter = () => {
         </Col>
         <Col className={classes.priceBlock}>
           <Col className={classes.filterItem_title}>
-            <img src={other} width={16} height={16} />
             Other
           </Col>
           <Select
@@ -360,55 +356,9 @@ const Filter = () => {
             onChange={onChangeSelect('drive_type')}
             options={drive_type}
           />
-          {/* <Select
-            style={{
-              width: "100%",
-              marginBottom: "0.25rem"
-            }}
-            allowClear
-            placeholder="Color"
-            onChange={onChangeSelect('color')}
-            options={[
-              {
-                value: 'jack',
-                label: 'Jack',
-              },
-              {
-                value: 'lucy',
-                label: 'Lucy',
-              },
-              {
-                value: 'tom',
-                label: 'Tom',
-              },
-            ]}
-          />
-          <Select
-            style={{
-              width: "100%",
-              marginBottom: "0.25rem"
-            }}
-            placeholder="Interior material"
-            onChange={onChangeSelect('interior_material')}
-            options={[
-              {
-                value: 'jack',
-                label: 'Jack',
-              },
-              {
-                value: 'lucy',
-                label: 'Lucy',
-              },
-              {
-                value: 'tom',
-                label: 'Tom',
-              },
-            ]}
-          /> */}
         </Col>
         <Col className={classes.priceBlock}>
           <Col className={classes.filterItem_title}>
-            <img src={calendar} width={16} height={16} />
             Year
           </Col>
           <Col style={{ display: 'flex' }}>

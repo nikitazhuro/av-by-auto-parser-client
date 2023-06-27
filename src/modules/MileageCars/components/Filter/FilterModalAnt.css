@@ -8,5 +8,10 @@
 
 .filterModal .ant-modal-content {
   height: 100%;
+  background-color: #33323D;
   border-radius: 0px;
+}
+
+.ant-modal .ant-modal-header {
+  background-color: #33323D;
 }

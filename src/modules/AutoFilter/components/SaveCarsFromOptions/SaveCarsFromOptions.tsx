@@ -89,6 +89,7 @@ const SaveCarsFromOptions = () => {
         style={{
           marginRight: '0.5rem'
         }}
+        className={classes.fetchAllCars}
         onClick={openModal}
       >
         Save cars from selected options

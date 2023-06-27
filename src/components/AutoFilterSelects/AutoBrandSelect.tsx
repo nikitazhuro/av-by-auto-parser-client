@@ -45,9 +45,6 @@ const AutoBrandSelect: React.FC<IAutoBrandSelect> = ({
 
   return (
     <Col style={{ display: 'flex', flexDirection: 'column'}}>
-    <span style={{ color: 'gray ', marginBottom: '0.25rem'}}>
-      Brand:
-    </span>
       <Select
         loading={isLoading}
         showSearch
