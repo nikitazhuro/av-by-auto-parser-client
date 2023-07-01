@@ -1,4 +1,4 @@
-import { Button, Checkbox, Modal, Row, message } from 'antd';
+import { Checkbox, Col, Modal, Row, message } from 'antd';
 import { useState } from 'react';
 
 import classes from './SaveCarsFromOptions.module.css';
@@ -8,6 +8,8 @@ import { getAutoFilter } from '../../../../pages/Transport';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
 import { fetchMileageCarsOnBackend } from '../../../../api/mileageCardApi';
+import GreenButton from '../../../../components/Button/GreenButton';
+import ApModal from '../../../../components/Modal/ApModal';
 
 const SaveCarsFromOptions = () => {
   const dispatch = useAppDispatch();
@@ -62,38 +64,34 @@ const SaveCarsFromOptions = () => {
   return (
     <>
       {contextHolder}
-      <Modal
+      <ApModal
         open={isModelOpen}
-        title='Do you want to fetch all the cars?'
+        title='Do you want to fetch selected cars?'
         onCancel={closeModal}
         destroyOnClose
         footer={(
           <Row className={classes.confirmFooter}>
-            <Button onClick={closeModal}>
+            <GreenButton mode='modal' onClick={closeModal}>
               Cancel
-            </Button>
-            <Button onClick={fetchCars} className={classes.saveBtn} type="primary">
+            </GreenButton>
+            <GreenButton mode='modal' onClick={fetchCars}>
               Fetch
-            </Button>
+            </GreenButton>
           </Row>
-        )}
-      >
-        <Checkbox checked={withPhotosCheckbox} onChange={onChangeHandler}>
-          Do you want also to save car photos on your computer?
-        </Checkbox>
-      </Modal>
-      <Button
-        type="primary"
-        size="small"
+        )}>
+        <Col className={classes.fetchSelectedCheckbox}>
+          <Checkbox checked={withPhotosCheckbox} onChange={onChangeHandler}>
+            Do you want also to save car photos on your computer?
+          </Checkbox>
+        </Col>
+      </ApModal>
+      <GreenButton
         disabled={!brandId || !modelId}
-        style={{
-          marginRight: '0.5rem'
-        }}
-        className={classes.fetchAllCars}
+        className={classes.fetchSelectedCars}
         onClick={openModal}
       >
-        Save cars from selected options
-      </Button>
+        Fetch selected
+      </GreenButton>
     </>
   )
 }

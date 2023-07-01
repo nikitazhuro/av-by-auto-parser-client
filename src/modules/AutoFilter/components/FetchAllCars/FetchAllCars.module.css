@@ -1,25 +1,10 @@
 .fetchAllCars {
-  margin-right: 0.25rem;
-  border: 1px solid #134c6d;
-  display: block;
   margin: 0 auto;
-  
   float: right;
-  color: #fff!important;
-  outline: none!important;
-  background-color: rgba(0,0,0,.1);
-  padding: 2px 30px!important;
-  display: flex;
-  align-items: center;
+  text-transform: none;
+  padding: 2px 20px;
 }
 
-.fetchAllCars:hover {
-  background-color: rgba(0,0,0,.2)!important;
-}
-.fetchAllCars:active {
-  box-shadow: #134c6d;
-  background-color: rgba(0,0,0,.2)!important;
-}
 .confirmFooter {
   display: flex;
   justify-content: end;

@@ -1,24 +1,9 @@
-.fetchAllCars {
-  margin-right: 0.25rem;
-  border: 1px solid #134c6d;
-  display: block;
+.fetchSelectedCars {
+  margin-right: 0.5rem!important;
   margin: 0 auto;
-  
+  text-transform: none!important;
   float: right;
-  color: #fff!important;
-  outline: none!important;
-  background-color: rgba(0,0,0,.1);
-  padding: 2px 30px!important;
-  display: flex;
-  align-items: center;
-}
-
-.fetchAllCars:hover {
-  background-color: rgba(0,0,0,.2)!important;
-}
-.fetchAllCars:active {
-  box-shadow: #134c6d;
-  background-color: rgba(0,0,0,.2)!important;
+  padding: 2px 20px!important;
 }
 
 .confirmFooter {
@@ -27,6 +12,6 @@
   margin-top: 0.5rem;
 }
 
-.saveBtn {
-  margin: 0 0.25rem;
+.fetchSelectedCheckbox .ant-checkbox-wrapper {
+  color: white;
 }

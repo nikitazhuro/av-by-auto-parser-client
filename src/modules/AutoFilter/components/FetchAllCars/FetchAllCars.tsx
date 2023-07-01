@@ -5,6 +5,8 @@ import classes from './FetchAllCars.module.css';
 
 import { fetchMileageCarsOnBackend } from "../../../../api/mileageCardApi";
 import { useSpeech } from "../../../../hooks/useSpeech";
+import GreenButton from "../../../../components/Button/GreenButton";
+import ApModal from "../../../../components/Modal/ApModal";
 
 const FetchAllCars = () => {
   const [speak] = useSpeech()
@@ -54,29 +56,29 @@ const FetchAllCars = () => {
   return (
     <>
       {contextHolder}
-      <Modal
+      <ApModal
         open={isModelOpen}
         title='Do you want to fetch all the cars?'
         onCancel={closeModal}
         destroyOnClose
         footer={(
           <Row className={classes.confirmFooter}>
-            <Button onClick={closeModal}>
+            <GreenButton mode="modal" onClick={closeModal}>
               Cancel
-            </Button>
-            <Button onClick={fetchAllCars} className={classes.saveBtn} type="primary">
+            </GreenButton>
+            <GreenButton mode="modal" onClick={fetchAllCars}>
               Fetch
-            </Button>
+            </GreenButton>
           </Row>
         )}
       >
         <Checkbox checked={withPhotosCheckbox} onChange={onChangeHandler}>
           Do you want also to save car photos on your computer?
         </Checkbox>
-      </Modal>
-      <Button onClick={openModal} className={classes.fetchAllCars} size="small" type="primary">
-        Fetch all cars
-      </Button>
+      </ApModal>
+      <GreenButton onClick={openModal} className={classes.fetchAllCars}>
+        Fetch all
+      </GreenButton>
     </>
   )
 }

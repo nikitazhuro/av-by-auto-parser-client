@@ -1,0 +1,28 @@
+.ApModal {
+  display: flex;
+  justify-content: center;
+}
+.ApModal .ant-modal-content {
+  max-width: 430px;
+  color: white;
+  padding: 21px;
+  position: fixed;
+  background: linear-gradient(135deg, rgba(63,135,167,0.75) 0%, rgba(17,86,120,0.85) 97%)!important;
+  border: 1px solid #00cabd!important;
+  transition: 0.3s;
+  z-index: 10000;
+}
+.ApModal .ant-modal-header {
+  color: white;
+  background-color: transparent;
+  font-family: 'PT Mono', monospace;
+
+}
+.ApModal .ant-modal-title {
+  color: white;
+}
+
+.ApModal .ant-checkbox-wrapper {
+  color: white;
+  font-family: 'PT Mono', monospace;
+}

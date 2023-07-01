@@ -5,13 +5,6 @@ import { useEffect, useState } from "react";
 import './FilterModalAnt.css'
 import classes from './Filter.module.css';
 
-import dollar from '../../../../assets/icons/dollar.svg'
-import other from '../../../../assets/icons/other.svg'
-import mileage from '../../../../assets/icons/mileage.svg'
-import engine from '../../../../assets/icons/engine.svg'
-import calendar from '../../../../assets/icons/calendar.svg'
-import { useTypedSelector } from "../../../../hooks/useTypedSelector";
-import { getAutoFilter } from "../../../../pages/Transport";
 import { useGetCarsFilterActions } from "../../../../pages/Transport/store/autoFilterSlice";
 
 const engine_type = [
@@ -196,13 +189,13 @@ const Filter = () => {
       <Modal
         title={
           <Col className={classes.filter__title}>
-            <FilterOutlined />
-            Filter
+            Filters
           </Col>
         }
         className="filterModal"
         open={isOpenFilter}
         onCancel={closeFilterHandler}
+        destroyOnClose
         onOk={closeFilterHandler}
         width={430}
         footer={(
@@ -231,7 +224,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="From"
+                placeholder="Enter min price"
                 value={filterState.price_from}
                 onChange={onChangeFilterState('price_from')}
               />
@@ -242,7 +235,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="To"
+                placeholder="Enter max price"
                 value={filterState.price_to}
                 onChange={onChangeFilterState('price_to')}
               />
@@ -260,7 +253,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="From"
+                placeholder="Enter min mileage"
                 value={filterState.mileage_from}
                 onChange={onChangeFilterState('mileage_from')}
               />
@@ -271,7 +264,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="To"
+                placeholder="Enter max mileage"
                 value={filterState.mileage_to}
                 onChange={onChangeFilterState('mileage_to')}
               />
@@ -368,7 +361,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="From"
+                placeholder="Enter year from"
                 value={filterState.year_from}
                 onChange={onChangeFilterState('year_from')}
               />
@@ -379,7 +372,7 @@ const Filter = () => {
             }}>
               <Input
                 allowClear
-                placeholder="To"
+                placeholder="Enter year to"
                 value={filterState.year_to}
                 onChange={onChangeFilterState('year_to')}
               />

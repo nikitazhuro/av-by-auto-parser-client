@@ -81,7 +81,7 @@ const SideMenu: React.FC<ISideMenu> = ({
       collapsed={collapsed}
       onCollapse={onChangeCollapsed}
     >
-      <div onClick={() => router('/')} className={classes.logo}>AP</div>
+      <h1 onClick={() => router('/')} className={classes.logo}>auto parser</h1>
       <Menu
         defaultOpenKeys={['Transport']}
         onClick={onChangeMenu}

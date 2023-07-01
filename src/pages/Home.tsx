@@ -9,15 +9,9 @@ const Home = () => {
       alignItems: 'center',
       height: '100%',
     }}>
-      <Col style={{
-        color: '#fff',
-        fontSize: '52px',
-        fontWeight: '700',
-        textTransform: 'uppercase',
-        fontFamily: "Bebas Neue Bold",
-      }}>
+      <h1>
         auto parser
-      </Col>
+      </h1>
     </Row>
   )
 }

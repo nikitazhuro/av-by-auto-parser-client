@@ -1,4 +1,4 @@
-import { Col, Row, Switch, Tag } from 'antd';
+import { Col, Row } from 'antd';
 
 import classes from './AutoFilter.module.css';
 
@@ -12,6 +12,7 @@ import Filter from '../../MileageCars/components/Filter/Filter';
 import { useGetBrandsQuery } from '../../../pages/Transport/store/transportApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { getBrandId, getModelId } from '../../../pages/Transport';
+import GreenButton from '../../../components/Button/GreenButton';
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
@@ -21,14 +22,25 @@ const AutoBrandFilter = () => {
 
   return (
     <Row className={classes.carsFilter}>
+      <Col className={classes.banner}>
+        <a href="/"  target='_blank'>
+          <h1 className={classes.bannerTitle}>try our free telegram bot for the fastest search</h1>
+          <GreenButton className={classes.bannerBtn}>
+            Let's try
+          </GreenButton>
+        </a>
+      </Col>
       <Col className={classes.filterHeader}>
-        <span className={classes.carsFilterTitle}>
+        <h1 className={classes.carsFilterTitle}>
           Mileage cars
+        </h1>
+        <span className={classes.carsFilterDescription}>
+          List of mileage cars from our database
         </span>
-        <Col>
-          <FetchAllCars />
-          <SaveCarsFromOptions />
-        </Col>
+      </Col>
+      <Col>
+        <FetchAllCars />
+        <SaveCarsFromOptions />
       </Col>
       <Col span={24} className={classes.filterList}>
         <Col span={12} className={classes.carsSelects}>

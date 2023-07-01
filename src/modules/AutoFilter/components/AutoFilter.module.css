@@ -1,9 +1,13 @@
 .carsFilterTitle {
-  font-family: Myriad Pro;
-  font-size: 36px;
-  font-weight: 700;
-  color: #91cdd9;
-  margin-bottom: 1.5rem;
+  font-size: 44px;
+}
+
+.carsFilterDescription {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  font-family: 'PT Mono', monospace;
+  line-height: 125%;
+  letter-spacing: 2px;
 }
 
 .carsFilter {
@@ -17,9 +21,7 @@
 }
 
 .filterHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: 1.5rem 0;
 }
 .carsSelects {
   display: flex;
@@ -28,4 +30,26 @@
 .filterIcon {
   display: flex;
   justify-content: end;
+}
+
+.banner {
+  height: 100px;
+  border: 1px solid #075C7A;
+  padding-left: 64px;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  justify-content: center;
+  background: url(/src/assets/img/banner.jpg) center 75% no-repeat;
+  background-size: cover;
+}
+.banner a{
+  color: white;
+  text-decoration: none;
+}
+
+.bannerTitle {
+  font-size: 1.75rem;
 }

@@ -6,9 +6,6 @@ import {
   getBrandId,
   getGenerationIds,
   getModelId,
-  getYear,
-  getYearFrom,
-  getYearTo,
 } from "./store/selectors";
 
 export {
@@ -17,9 +14,6 @@ export {
   getBrandId,
   getGenerationIds,
   getModelId,
-  getYear,
-  getYearFrom,
-  getYearTo,
 }
 
 export default Transport;

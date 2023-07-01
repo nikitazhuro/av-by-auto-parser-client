@@ -10,12 +10,7 @@ import { getBrandId, getGenerationIds, getModelId } from '../../pages/Transport'
 const AutoGenerationSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const {
-    setGenerationIds,
-    clearYear,
-    setYearFrom,
-    setYearTo,
-  } = useGetCarsFilterActions();
+  const { setGenerationIds } = useGetCarsFilterActions();
 
   const brandId = useTypedSelector(getBrandId)
   const modelId = useTypedSelector(getModelId)
@@ -39,17 +34,7 @@ const AutoGenerationSelect = () => {
       return prev
     })
 
-    clearYear();
   }
-
-  useEffect(() => {
-    const selectedGen = data.find((gen) => gen.id === generationIds[0]);
-
-    if (selectedGen) {
-      setYearFrom(selectedGen.yearFrom);
-      setYearTo(selectedGen.yearTo);
-    }
-  }, [data, generationIds.length])
 
   useEffect(() => {
     const generationIDFromParams = searchParams.get('generation');
