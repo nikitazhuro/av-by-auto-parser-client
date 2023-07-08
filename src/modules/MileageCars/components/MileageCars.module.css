@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 1.5rem;
+  width: 100%;
 }
 
 .filterList {
@@ -57,4 +58,19 @@
 .filterMain {
   margin-left: auto;
   margin-right: 0.5rem;
+}
+
+.milageCarsTableBlock {
+  margin-bottom: 125px;
+}
+
+.description {
+  color: white;
+  padding-left: 16px;
+  border-left: 6px solid #3B3E6B;
+  font-family: 'PT Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5rem;
+  position: absolute;
+  bottom: 0;
 }

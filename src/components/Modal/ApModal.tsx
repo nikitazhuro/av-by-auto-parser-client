@@ -15,7 +15,7 @@ const ApModal: React.FC<ModalProps> = ({
   }
 
   return (
-    <Modal {...props} />
+    <Modal {...props} className="ApModal" />
   )
 }
 

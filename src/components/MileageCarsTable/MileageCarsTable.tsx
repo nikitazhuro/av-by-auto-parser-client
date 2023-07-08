@@ -1,6 +1,7 @@
 import { Col, Image, Row, Table } from "antd"
 import dayjs from "dayjs";
 import { get } from 'lodash';
+import { useNavigate } from "react-router-dom";
 
 import classes from './MileageCarsTable.module.css';
 
@@ -13,6 +14,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
   data,
   isLoading,
 }) => {
+  const router = useNavigate();
 
   const columns = [
     {
@@ -193,14 +195,23 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       key: 'action',
       dataIndex: ['data', 'publicUrl'],
       render: (cell: string) => (
-        <Col>
+        <Col className={classes.links}>
           <a href={cell} target="_blank">
-            Show on AV
+            AV.by
           </a>
         </Col>
       ),
     },
   ];
+
+  const onRow = (record: any) => {
+    return {
+      onClick: () => {
+        router(record.uuid)
+      },
+    };
+  };
+
   return (
     <Table
       loading={isLoading}
@@ -211,6 +222,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       }}
       columns={columns}
       dataSource={data}
+      onRow={onRow}
     />
   )
 }

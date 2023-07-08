@@ -9,9 +9,9 @@ import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
 import FetchAllCars from './FetchAllCars/FetchAllCars';
 import Filter from '../../MileageCars/components/Filter/Filter';
 
-import { useGetBrandsQuery } from '../../../pages/Transport/store/transportApi';
+import { useGetBrandsQuery } from '../../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { getBrandId, getModelId } from '../../../pages/Transport';
+import { getBrandId, getModelId } from '../../../pages/VehiclesSold';
 import GreenButton from '../../../components/Button/GreenButton';
 
 const AutoBrandFilter = () => {
@@ -23,7 +23,7 @@ const AutoBrandFilter = () => {
   return (
     <Row className={classes.carsFilter}>
       <Col className={classes.banner}>
-        <a href="/"  target='_blank'>
+        <a href="/" target='_blank'>
           <h1 className={classes.bannerTitle}>try our free telegram bot for the fastest search</h1>
           <GreenButton className={classes.bannerBtn}>
             Let's try
@@ -38,9 +38,11 @@ const AutoBrandFilter = () => {
           List of mileage cars from our database
         </span>
       </Col>
-      <Col>
-        <FetchAllCars />
-        <SaveCarsFromOptions />
+      <Col span={24} className={classes.fetchBtns}>
+        <Col>
+          <FetchAllCars />
+          <SaveCarsFromOptions />
+        </Col>
       </Col>
       <Col span={24} className={classes.filterList}>
         <Col span={12} className={classes.carsSelects}>

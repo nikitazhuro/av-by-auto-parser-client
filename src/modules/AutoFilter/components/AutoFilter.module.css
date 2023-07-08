@@ -18,6 +18,7 @@
 .filterList {
   display: flex;
   align-items: end;
+  margin-top: 0.5rem;
 }
 
 .filterHeader {
@@ -33,7 +34,7 @@
 }
 
 .banner {
-  height: 100px;
+  height: 120px;
   border: 1px solid #075C7A;
   padding-left: 64px;
   border-radius: 4px;

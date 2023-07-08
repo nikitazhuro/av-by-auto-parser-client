@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import reducers from './reducers'
-import { transportApi } from '../pages/Transport/store/transportApi'
+import reducers from './reducers';
+import { vehiclesSoldApi } from '../pages/VehiclesSold/store/vehiclesSoldApi';
 
 export const store = configureStore({
   reducer: reducers,
-  middleware: (gDM) => gDM().concat(transportApi.middleware) 
+  middleware: (gDM) => gDM().concat(vehiclesSoldApi.middleware) 
 })
 
 export type RootState = ReturnType<typeof store.getState>

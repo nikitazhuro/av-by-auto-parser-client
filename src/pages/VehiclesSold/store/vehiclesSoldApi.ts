@@ -51,8 +51,8 @@ interface ILastSold {
   mediumPrice?: ISoldAutoMediumPrice;
 }
 
-export const transportApi = createApi({
-  reducerPath: 'transportApi',
+export const vehiclesSoldApi = createApi({
+  reducerPath: 'vehiclesSoldApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.av.by' }),
   endpoints: builder => ({
     getBrands: builder.query<Array<{ id: number, name: string }>, void>({
@@ -80,4 +80,4 @@ export const {
   useGetModelsQuery,
   useGetGenerationsQuery,
   useGetLastSoldCarsQuery,
-} = transportApi;
+} = vehiclesSoldApi;

@@ -1,10 +1,9 @@
 .filter {
   background-color: hsla(0,0%,100%,.2);
-  border: hsla(0,0%,100%,.3);
-  height: 25px;
-  width: 27px;
-  outline: none;
-  margin-left: 0.25rem;
+  height: 30px;
+  width: 90px;
+  color: white;
+  font-family: "Roboto";
   transition: all .1s ease-in-out;
   border-radius: 3px;
   display: flex;
@@ -14,6 +13,10 @@
 }
 .filter svg {
   fill: white!important
+}
+
+.filterPreviewBtn {
+  margin-left: 0.25rem;
 }
 
 .filter:hover {
@@ -75,4 +78,18 @@
   background-color:#00BFB1!important;
   color: white!important;
   border: 1px solid #00BFB1!important;
+}
+
+.filterInput {
+  padding-left: 16px!important;
+}
+
+.longSelect {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.shortSelect {
+  width: 50%;
+  margin-bottom: 0.25rem;
 }

@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Layout, theme, Spin, Row } from 'antd';
+import { Layout, Spin, Row } from 'antd';
 import { useLocation } from 'react-router-dom';
 
 import AppRouter from './components/AppRouter';
 import SideMenu from './components/Sidebar/Sidebar';
 
-
-const { Header, Content } = Layout;
-
 function App() {
-  const { token: { colorBgContainer } } = theme.useToken();
-
   const location = useLocation();
 
   const [selectedRoute, setSelectedRoute] = useState<string>('')
@@ -24,8 +19,12 @@ function App() {
   }
 
   useEffect(() => {
-    if (location.pathname.includes('/transport/mileage-auto')) {
+    if (location.pathname.includes('/vehicles-sold/mileage-auto')) {
       changeRoute('Mileage auto')
+    } else if (location.pathname.includes('/auction')) {
+      changeRoute('Auction')
+    } else if (location.pathname.includes('/marketplace')) {
+      changeRoute('Marketplace')
     } else {
       changeRoute('Home')
     }
@@ -39,6 +38,7 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#121224',
       }}>
         <Spin size="large" spinning />
       </Row>

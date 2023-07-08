@@ -2,9 +2,9 @@ import { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
 import { useSearchParams } from 'react-router-dom';
 
-import { useGetModelsQuery } from '../../pages/Transport/store/transportApi';
+import { useGetModelsQuery } from '../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { useGetCarsFilterActions } from '../../pages/Transport/store/autoFilterSlice';
+import { useGetCarsFilterActions } from '../../pages/VehiclesSold/store/autoFilterSlice';
 
 const AutoModelSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();

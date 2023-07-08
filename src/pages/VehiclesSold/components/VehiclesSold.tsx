@@ -5,14 +5,13 @@ import MileageCars from '../../../modules/MileageCars';
 
 const { Content } = Layout;
 
-const Transport = () => {
-
+const VehiclesSold = () => {
   return (
-    <Content style={{ margin: '24px' }}>
+    <Content style={{ margin: '24px', position: 'relative' }}>
       <AutoFilter />
       <MileageCars />
     </Content>
   )
 }
 
-export default Transport;
+export default VehiclesSold;

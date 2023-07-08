@@ -4,9 +4,9 @@ import { useState } from 'react';
 import classes from './SaveCarsFromOptions.module.css';
 
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
-import { getAutoFilter } from '../../../../pages/Transport';
+import { getAutoFilter } from '../../../../pages/VehiclesSold';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
-import { autoFilterSliceActions } from '../../../../pages/Transport/store/autoFilterSlice';
+import { autoFilterSliceActions } from '../../../../pages/VehiclesSold/store/autoFilterSlice';
 import { fetchMileageCarsOnBackend } from '../../../../api/mileageCardApi';
 import GreenButton from '../../../../components/Button/GreenButton';
 import ApModal from '../../../../components/Modal/ApModal';

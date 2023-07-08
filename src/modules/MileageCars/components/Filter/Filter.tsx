@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import './FilterModalAnt.css'
 import classes from './Filter.module.css';
 
-import { useGetCarsFilterActions } from "../../../../pages/Transport/store/autoFilterSlice";
+import { useGetCarsFilterActions } from "../../../../pages/VehiclesSold/store/autoFilterSlice";
+import ApInput from "../../../../components/Input/ApInput";
+import ApSelect from "../../../../components/Select/ApSelect";
 
 const engine_type = [
   { label: 'бензин', value: 'бензин' },
@@ -185,6 +187,7 @@ const Filter = () => {
     <>
       <Col onClick={openFilterHandler} className={classes.filter}>
         <FilterOutlined />
+        <span className={classes.filterPreviewBtn}>Filters</span>
       </Col>
       <Modal
         title={
@@ -200,12 +203,12 @@ const Filter = () => {
         width={430}
         footer={(
           <Row style={{ display: 'flex' }}>
-            <Col style={{ width: '30%', paddingRight: '0.15rem' }}>
+            <Col style={{ width: '30%', paddingRight: '0.25rem' }}>
               <Button className={classes.modalSubmit} onClick={clearFiler}>
                 Clear
               </Button>
             </Col>
-            <Col style={{ width: '70%', paddingLeft: '0.15rem' }}>
+            <Col style={{ width: '70%', paddingLeft: '0.25rem' }}>
               <Button className={classes.modalSubmit} onClick={searchCars}>
                 Search
               </Button>
@@ -220,10 +223,11 @@ const Filter = () => {
           <Col style={{ display: 'flex' }}>
             <Col style={{
               width: '50%',
-              paddingRight: '0.15rem'
+              paddingRight: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter min price"
                 value={filterState.price_from}
                 onChange={onChangeFilterState('price_from')}
@@ -231,10 +235,11 @@ const Filter = () => {
             </Col>
             <Col style={{
               width: '50%',
-              paddingLeft: '0.15rem'
+              paddingLeft: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter max price"
                 value={filterState.price_to}
                 onChange={onChangeFilterState('price_to')}
@@ -249,10 +254,11 @@ const Filter = () => {
           <Col style={{ display: "flex" }}>
             <Col style={{
               width: '50%',
-              paddingRight: '0.15rem'
+              paddingRight: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter min mileage"
                 value={filterState.mileage_from}
                 onChange={onChangeFilterState('mileage_from')}
@@ -260,10 +266,11 @@ const Filter = () => {
             </Col>
             <Col style={{
               width: '50%',
-              paddingRight: '0.15rem'
+              paddingLeft: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter max mileage"
                 value={filterState.mileage_to}
                 onChange={onChangeFilterState('mileage_to')}
@@ -275,31 +282,25 @@ const Filter = () => {
           <Col className={classes.filterItem_title}>
             Engine
           </Col>
-          <Col>
-            <Select
-              style={{
-                width: "50%",
-                marginBottom: "0.25rem",
-                paddingRight: '0.15rem'
-              }}
+          <Col style={{ display: 'flex' }}>
+            <ApSelect
+              style={{ marginRight: "0.25rem" }}
+              className={classes.shortSelect}
               allowClear
               placeholder="Engine, from"
               onChange={onChangeSelect('engine_from')}
               options={engineOptions}
             />
-            <Select
-              style={{
-                width: "50%",
-                marginBottom: "0.25rem",
-                paddingLeft: '0.15rem',
-              }}
+            <ApSelect
+              style={{ marginLeft: "0.25rem" }}
+              className={classes.shortSelect}
               allowClear
               placeholder="Engine, to"
               onChange={onChangeSelect('engine_to')}
               options={engineOptions}
             />
           </Col>
-          <Select
+          <ApSelect
             style={{
               width: "100%"
             }}
@@ -315,21 +316,15 @@ const Filter = () => {
           <Col className={classes.filterItem_title}>
             Other
           </Col>
-          <Select
-            style={{
-              width: "100%",
-              marginBottom: "0.25rem"
-            }}
+          <ApSelect
+            className={classes.longSelect}
             allowClear
             placeholder="Transmission"
             onChange={onChangeSelect('transmission_type')}
             options={transmission}
           />
-          <Select
-            style={{
-              width: "100%",
-              marginBottom: "0.25rem"
-            }}
+          <ApSelect
+            className={classes.longSelect}
             mode="multiple"
             allowClear
             placeholder="Body type"
@@ -337,11 +332,8 @@ const Filter = () => {
             onChange={onChangeSelect('body_type')}
             options={body_type}
           />
-          <Select
-            style={{
-              width: "100%",
-              marginBottom: "0.25rem"
-            }}
+          <ApSelect
+            className={classes.longSelect}
             mode="multiple"
             allowClear
             placeholder="Drive type"
@@ -357,10 +349,11 @@ const Filter = () => {
           <Col style={{ display: 'flex' }}>
             <Col style={{
               width: '50%',
-              paddingRight: '0.15rem'
+              paddingRight: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter year from"
                 value={filterState.year_from}
                 onChange={onChangeFilterState('year_from')}
@@ -368,10 +361,11 @@ const Filter = () => {
             </Col>
             <Col style={{
               width: '50%',
-              paddingLeft: '0.15rem'
+              paddingLeft: '0.25rem'
             }}>
-              <Input
+              <ApInput
                 allowClear
+                className={classes.filterInput}
                 placeholder="Enter year to"
                 value={filterState.year_to}
                 onChange={onChangeFilterState('year_to')}

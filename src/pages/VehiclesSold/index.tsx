@@ -1,4 +1,4 @@
-import Transport from "./components/Transport";
+import VehiclesSold from "./components/VehiclesSold";
 
 import {
   getAutoFilter,
@@ -16,4 +16,4 @@ export {
   getModelId,
 }
 
-export default Transport;
+export default VehiclesSold;
