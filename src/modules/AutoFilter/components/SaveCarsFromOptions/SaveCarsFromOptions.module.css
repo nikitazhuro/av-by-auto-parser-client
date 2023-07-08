@@ -1,0 +1,17 @@
+.fetchSelectedCars {
+  margin-right: 0.5rem!important;
+  margin: 0 auto;
+  text-transform: none!important;
+  float: right;
+  padding: 2px 20px!important;
+}
+
+.confirmFooter {
+  display: flex;
+  justify-content: end;
+  margin-top: 0.5rem;
+}
+
+.fetchSelectedCheckbox .ant-checkbox-wrapper {
+  color: white;
+}

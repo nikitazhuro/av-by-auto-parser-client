@@ -1,8 +1,8 @@
-import autoFilterSlice from "../../pages/Transport/store/autoFilterSlice";
-import { transportApi } from "../../pages/Transport/store/transportApi";
+import autoFilterSlice from "../../pages/VehiclesSold/store/autoFilterSlice";
+import { vehiclesSoldApi } from "../../pages/VehiclesSold/store/vehiclesSoldApi";
 
 const reducers = {
-  [transportApi.reducerPath]: transportApi.reducer,
+  [vehiclesSoldApi.reducerPath]: vehiclesSoldApi.reducer,
   autoFilter: autoFilterSlice,
 }
 

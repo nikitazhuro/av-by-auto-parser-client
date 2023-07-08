@@ -1,0 +1,16 @@
+.filterModal {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding: 0;
+}
+
+.filterModal .ant-modal-content {
+  background-color: #33323D!important;
+  height: 100%;
+}
+
+.filterModal .ant-modal-title {
+  background-color: #33323D!important;
+}

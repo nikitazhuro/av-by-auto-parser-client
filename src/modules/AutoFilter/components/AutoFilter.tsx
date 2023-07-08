@@ -5,53 +5,60 @@ import classes from './AutoFilter.module.css';
 import AutoBrandSelect from '../../../components/AutoFilterSelects/AutoBrandSelect';
 import AutoModelSelect from '../../../components/AutoFilterSelects/AutoModelSelect';
 import AutoGenerationSelect from '../../../components/AutoFilterSelects/AutoGenerationSelect';
-import AutoYearSelect from '../../../components/AutoFilterSelects/AutoYearSelect';
 import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
 import FetchAllCars from './FetchAllCars/FetchAllCars';
+import Filter from '../../MileageCars/components/Filter/Filter';
 
-import { useGetBrandsQuery } from '../../../pages/Transport/store/transportApi';
+import { useGetBrandsQuery } from '../../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { getBrandId, getGenerationId, getModelId } from '../../../pages/Transport';
+import { getBrandId, getModelId } from '../../../pages/VehiclesSold';
+import GreenButton from '../../../components/Button/GreenButton';
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
 
-  const generationId = useTypedSelector(getGenerationId)
   const brandId = useTypedSelector(getBrandId)
   const modelId = useTypedSelector(getModelId)
 
   return (
     <Row className={classes.carsFilter}>
+      <Col className={classes.banner}>
+        <a href="/" target='_blank'>
+          <h1 className={classes.bannerTitle}>try our free telegram bot for the fastest search</h1>
+          <GreenButton className={classes.bannerBtn}>
+            Let's try
+          </GreenButton>
+        </a>
+      </Col>
       <Col className={classes.filterHeader}>
-        <span className={classes.carsFilterTitle}>
-          Cars filter:
+        <h1 className={classes.carsFilterTitle}>
+          Mileage cars
+        </h1>
+        <span className={classes.carsFilterDescription}>
+          List of mileage cars from our database
         </span>
+      </Col>
+      <Col span={24} className={classes.fetchBtns}>
         <Col>
           <FetchAllCars />
           <SaveCarsFromOptions />
         </Col>
       </Col>
       <Col span={24} className={classes.filterList}>
-        <Col span={6}>
+        <Col span={12} className={classes.carsSelects}>
           <AutoBrandSelect
             isLoading={isLoading}
             data={data}
           />
-        </Col>
-        <Col span={6}>
           {brandId && (
             <AutoModelSelect />
           )}
-        </Col>
-        <Col span={6}>
           {brandId && modelId && (
             <AutoGenerationSelect />
           )}
         </Col>
-        <Col span={6}>
-          {brandId && modelId && generationId && (
-            <AutoYearSelect />
-          )}
+        <Col span={12} className={classes.filterIcon}>
+          <Filter />
         </Col>
       </Col>
     </Row>

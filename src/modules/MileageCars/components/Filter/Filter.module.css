@@ -1,0 +1,95 @@
+.filter {
+  background-color: hsla(0,0%,100%,.2);
+  height: 30px;
+  width: 90px;
+  color: white;
+  font-family: "Roboto";
+  transition: all .1s ease-in-out;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.filter svg {
+  fill: white!important
+}
+
+.filterPreviewBtn {
+  margin-left: 0.25rem;
+}
+
+.filter:hover {
+  background-color: hsla(0,0%,100%,.1);
+  color: white;
+}
+.filter:hover svg{
+  fill: white;
+}
+
+.filter svg {
+  fill: white;
+}
+
+.filter__title {
+  font-size: 36px;
+  color: white;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid white;
+  text-transform: uppercase;
+  font-size: 36px;
+  line-height: 105%;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.filterItem_title {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 16px;
+  margin-bottom: 0.25rem;
+}
+
+.filterItem_title img {
+  margin-right: 0.25rem;
+  fill: white;
+}
+
+.priceBlock {
+  margin-bottom: 1.5rem;
+}
+
+.modalSubmit {
+  width: 100%;
+  background-color: transparent;
+  height: 40px;
+  color: white;
+  border: 1px solid #00BFB1;
+  font-size: 16px;
+}
+
+.modalSubmit:hover {
+  background-color:#00BFB1!important;
+  color: white!important;
+  border: 1px solid #00BFB1!important;
+}
+.modalSubmit:active {
+  background-color:#00BFB1!important;
+  color: white!important;
+  border: 1px solid #00BFB1!important;
+}
+
+.filterInput {
+  padding-left: 16px!important;
+}
+
+.longSelect {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.shortSelect {
+  width: 50%;
+  margin-bottom: 0.25rem;
+}

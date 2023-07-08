@@ -1,5 +1,4 @@
 import { Col, Row } from 'antd';
-import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -10,13 +9,9 @@ const Home = () => {
       alignItems: 'center',
       height: '100%',
     }}>
-      <Col style={{
-        color: '#1677ff',
-        fontSize: '52px',
-        fontWeight: '600'
-      }}>
-        Av.by auto parser
-      </Col>
+      <h1>
+        auto parser
+      </h1>
     </Row>
   )
 }

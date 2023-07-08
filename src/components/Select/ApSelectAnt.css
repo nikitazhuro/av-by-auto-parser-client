@@ -1,0 +1,15 @@
+.ApSelect {
+  border: 1px solid rgba(255,255,255,0.5);
+  font-family: "Roboto"!important;
+  transition: 0.3s ease all;
+}
+
+.ApSelect:hover {
+  border-color: white;
+}
+
+.ApSelect.ant-select-multiple .ant-select-selection-search-mirror,
+.ApSelect.ant-select-multiple .ant-select-selection-placeholder {
+  inset-inline-start: 16px;
+  inset-inline-end: 16px;
+}

@@ -1,0 +1,11 @@
+.datesColumn {
+  display: flex;
+  flex-direction: column;
+}
+.links a{
+  color: #00c3b5;
+}
+
+.links a:hover {
+  color: #00f6e4;
+}

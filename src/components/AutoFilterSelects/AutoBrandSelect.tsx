@@ -2,9 +2,9 @@ import React, { useMemo, useEffect } from 'react'
 import { Col, Select } from "antd";
 import { useSearchParams } from 'react-router-dom';
 
-import { useGetCarsFilterActions } from '../../pages/Transport/store/autoFilterSlice';
+import { useGetCarsFilterActions } from '../../pages/VehiclesSold/store/autoFilterSlice';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { getBrandId } from '../../pages/Transport';
+import { getBrandId } from '../../pages/VehiclesSold';
 
 interface IAutoBrandSelect {
   isLoading: boolean;
@@ -45,9 +45,6 @@ const AutoBrandSelect: React.FC<IAutoBrandSelect> = ({
 
   return (
     <Col style={{ display: 'flex', flexDirection: 'column'}}>
-    <span style={{ color: 'gray ', marginBottom: '0.25rem'}}>
-      Brand:
-    </span>
       <Select
         loading={isLoading}
         showSearch

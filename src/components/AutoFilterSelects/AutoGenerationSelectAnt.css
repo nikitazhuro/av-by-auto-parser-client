@@ -1,0 +1,41 @@
+.generationSelect {
+  width: 320px!important;
+}
+
+.generationSelectDropdown .ant-select-item-option-state {
+  display: none;
+}
+
+.generationSelectDropdown .ant-space-item:last-child {
+  position: absolute;
+  top: 0;
+  margin-top: 3px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 28px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 0px;
+  font-weight: 400;
+}
+
+.generationSelectDropdown .ant-select-item-option-selected .genImageBG {
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+
+.genImageBG {
+  width: 280px;
+  height: 168px;
+  position: absolute;
+  transition: 0.2s ease all;
+  top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Roboto";
+  font-size: 18px;
+  opacity: 0;
+}

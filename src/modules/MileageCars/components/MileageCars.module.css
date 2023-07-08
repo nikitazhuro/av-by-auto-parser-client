@@ -1,0 +1,76 @@
+.carsListTitle {
+  font-size: 36px;
+  font-weight: 600;
+  color: #1890ff;
+}
+
+.carsList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.filterList {
+  display: flex;
+}
+
+.options {
+  display: flex;
+}
+
+.carsListHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.carsListTablesViewOption {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  color: gray;
+}
+
+.options button {
+  width: fit-content;
+}
+
+.sort, .tableView {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.sort__title, .tableView__title {
+  color: gray;
+  margin-bottom: 0.25rem;
+}
+.tableView__title_tag {
+  margin-left: 0.25rem;
+  margin-right: 0;
+}
+
+.sort__select {
+  width: 160px;
+}
+
+.filterMain {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+.milageCarsTableBlock {
+  margin-bottom: 125px;
+}
+
+.description {
+  color: white;
+  padding-left: 16px;
+  border-left: 6px solid #3B3E6B;
+  font-family: 'PT Mono', monospace;
+  font-size: 16px;
+  line-height: 1.5rem;
+  position: absolute;
+  bottom: 0;
+}

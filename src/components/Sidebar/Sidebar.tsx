@@ -4,6 +4,8 @@ import { CarOutlined, HomeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 import classes from './Sidebar.module.css';
+import { ReactComponent as Marketplace } from '../../assets/icons/marketplace.svg';
+import { ReactComponent as Auction } from '../../assets/icons/auction.svg';
 
 const { Sider } = Layout;
 
@@ -25,9 +27,11 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem('Home', 'Home', <HomeOutlined />),
-  getItem('Transport', 'Transport', <CarOutlined />, [
+  getItem('Vehicles sold', 'Vehicles sold', <CarOutlined />, [
     getItem('Mileage auto', 'Mileage auto'),
   ]),
+  getItem('Marketplace', 'Marketplace', <Marketplace />),
+  getItem('Auction', 'Auction', <Auction />),
 ];
 
 
@@ -54,8 +58,16 @@ const SideMenu: React.FC<ISideMenu> = ({
         return
       case 'Mileage auto':
         setSelectedRoute('Mileage auto');
-        router('/transport/mileage-auto');
+        router('/vehicles-sold/mileage-auto');
         return
+      case 'Marketplace':
+        setSelectedRoute('Marketplace');
+        router('/marketplace');
+        return
+      case 'Auction':
+          setSelectedRoute('Auction');
+          router('/auction');
+          return
       default:
         setSelectedRoute('Home');
         router('/');
@@ -81,9 +93,9 @@ const SideMenu: React.FC<ISideMenu> = ({
       collapsed={collapsed}
       onCollapse={onChangeCollapsed}
     >
-      <div onClick={() => router('/')} className={classes.logo}>AP</div>
+      <h1 onClick={() => router('/')} className={classes.logo}>auto parser</h1>
       <Menu
-        defaultOpenKeys={['Transport']}
+        defaultOpenKeys={['Vehicles sold']}
         onClick={onChangeMenu}
         theme="dark"
         selectedKeys={[selectedRoute]}

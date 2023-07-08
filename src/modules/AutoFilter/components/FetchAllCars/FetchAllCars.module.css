@@ -1,5 +1,8 @@
 .fetchAllCars {
-  margin-right: 0.25rem;
+  margin: 0 auto;
+  float: right;
+  text-transform: none;
+  padding: 2px 20px;
 }
 
 .confirmFooter {
