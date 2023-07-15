@@ -5,7 +5,7 @@ import classes from './MileageCarsTableWrapper.module.css';
 import MileageCarsTable from '../../../../components/MileageCarsTable/MileageCarsTable';
 
 interface IMileageCarsTableWrapper {
-  data: Array<Array<any>>;
+  data: Array<any>;
   isLoading: boolean;
 }
 

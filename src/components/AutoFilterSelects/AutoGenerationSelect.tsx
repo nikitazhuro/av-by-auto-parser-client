@@ -1,5 +1,5 @@
-import { useMemo, useEffect } from 'react'
-import { Col, Image, Select, Space } from "antd";
+import { useEffect } from 'react'
+import { Col, Select, Space } from "antd";
 import { useSearchParams } from 'react-router-dom';
 
 import './AutoGenerationSelectAnt.css';
@@ -7,25 +7,20 @@ import './AutoGenerationSelectAnt.css';
 import { useGetGenerationsQuery } from '../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useGetCarsFilterActions } from '../../pages/VehiclesSold/store/autoFilterSlice';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { getBrandId, getGenerationIds, getModelId } from '../../pages/VehiclesSold';
+import { getGenerationUUIDs, getModelUUID } from '../../pages/VehiclesSold';
 
 const AutoGenerationSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { setGenerationIds } = useGetCarsFilterActions();
+  const { setGenerationUUIDs } = useGetCarsFilterActions();
 
-  const brandId = useTypedSelector(getBrandId)
-  const modelId = useTypedSelector(getModelId)
-  const generationIds = useTypedSelector(getGenerationIds)
+  const modelUUID = useTypedSelector(getModelUUID)
+  const generationUUIDs = useTypedSelector(getGenerationUUIDs)
 
-  const { data = [], isLoading } = useGetGenerationsQuery({ brandId, modelId })
+  const { data = [], isLoading } = useGetGenerationsQuery(modelUUID)
 
-  const selectOptions = useMemo(() => {
-    return data.map((e) => ({ value: e.id, label: e.name }))
-  }, [data]);
-
-  const onChange = (value: Array<number>) => {
-    setGenerationIds(value);
+  const onChange = (value: Array<string>) => {
+    setGenerationUUIDs(value);
 
     setSearchParams((prev) => {
       prev.delete('generation')
@@ -39,10 +34,10 @@ const AutoGenerationSelect = () => {
   }
 
   useEffect(() => {
-    const generationIDFromParams = searchParams.get('generation');
+    const generationIDFromParams = searchParams.get('generation');    
 
     if (generationIDFromParams) {
-      setGenerationIds(generationIDFromParams.split(',').map((e) => +e));
+      setGenerationUUIDs(generationIDFromParams.split(','));
     }
   }, []);
 
@@ -52,7 +47,7 @@ const AutoGenerationSelect = () => {
         className='generationSelect'
         popupClassName='generationSelectDropdown'
         loading={isLoading}
-        value={generationIds}
+        value={generationUUIDs}
         listHeight={500}
         showSearch
         mode='multiple'
@@ -62,14 +57,18 @@ const AutoGenerationSelect = () => {
         onChange={onChange}
       >
         {data.map((gen) => (
-          <Select.Option value={gen.id} label={gen.name}>
+          <Select.Option
+            key={gen.uuid}
+            value={gen.uuid}
+            label={gen.title}
+          >
             <Space>
               <div>
-                <img width={280} height={168} src="https://img1.goodfon.com/original/800x480/a/d2/gta-spano-2013-3354.jpg" />
+                <img width={280} height={168} src="https://wp-s.ru/wallpapers/1/17/496466279414011/krasivyj-ch-rnyj-avtomobil-v-mrachnyx-tonax.jpg" />
                 <div className='genImageBG'>Selected</div>
               </div>
               <span>
-                {gen.name}
+                {gen.title}
                 {', '}
                 {gen.yearFrom}
                 {' - '}

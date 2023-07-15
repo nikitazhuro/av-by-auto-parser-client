@@ -3,17 +3,17 @@ import VehiclesSold from "./components/VehiclesSold";
 import {
   getAutoFilter,
   getTriggerToRefetchCars,
-  getBrandId,
-  getGenerationIds,
-  getModelId,
+  getBrandUUID,
+  getGenerationUUIDs,
+  getModelUUID,
 } from "./store/selectors";
 
 export {
   getAutoFilter,
   getTriggerToRefetchCars,
-  getBrandId,
-  getGenerationIds,
-  getModelId,
+  getBrandUUID,
+  getGenerationUUIDs,
+  getModelUUID,
 }
 
 export default VehiclesSold;

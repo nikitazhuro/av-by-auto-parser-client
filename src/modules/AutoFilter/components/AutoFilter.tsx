@@ -11,14 +11,14 @@ import Filter from '../../MileageCars/components/Filter/Filter';
 
 import { useGetBrandsQuery } from '../../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
-import { getBrandId, getModelId } from '../../../pages/VehiclesSold';
+import { getBrandUUID, getModelUUID } from '../../../pages/VehiclesSold';
 import GreenButton from '../../../components/Button/GreenButton';
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
 
-  const brandId = useTypedSelector(getBrandId)
-  const modelId = useTypedSelector(getModelId)
+  const brandUUID = useTypedSelector(getBrandUUID)
+  const modelUUID = useTypedSelector(getModelUUID)
 
   return (
     <Row className={classes.carsFilter}>
@@ -50,10 +50,10 @@ const AutoBrandFilter = () => {
             isLoading={isLoading}
             data={data}
           />
-          {brandId && (
+          {brandUUID && (
             <AutoModelSelect />
           )}
-          {brandId && modelId && (
+          {brandUUID && modelUUID && (
             <AutoGenerationSelect />
           )}
         </Col>

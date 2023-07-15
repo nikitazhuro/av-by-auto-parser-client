@@ -1,15 +1,16 @@
-import { Checkbox, Col, Modal, Row, message } from 'antd';
+import { Checkbox, Col, Row, message } from 'antd';
 import { useState } from 'react';
 
 import classes from './SaveCarsFromOptions.module.css';
+
+import GreenButton from '../../../../components/Button/GreenButton';
+import ApModal from '../../../../components/Modal/ApModal';
 
 import { useTypedSelector } from '../../../../hooks/useTypedSelector';
 import { getAutoFilter } from '../../../../pages/VehiclesSold';
 import { useAppDispatch } from '../../../../hooks/useAppDispatch';
 import { autoFilterSliceActions } from '../../../../pages/VehiclesSold/store/autoFilterSlice';
 import { fetchMileageCarsOnBackend } from '../../../../api/mileageCardApi';
-import GreenButton from '../../../../components/Button/GreenButton';
-import ApModal from '../../../../components/Modal/ApModal';
 
 const SaveCarsFromOptions = () => {
   const dispatch = useAppDispatch();
@@ -20,17 +21,19 @@ const SaveCarsFromOptions = () => {
   const [withPhotosCheckbox, setWithPhotosCheckbox] = useState(true);
 
 
-  const { generationIds, brandId, modelId } = useTypedSelector(getAutoFilter);
+  const { generationUUIDs, brandUUID, modelUUID } = useTypedSelector(getAutoFilter);
 
   const { setTriggerToRefetchCars } = autoFilterSliceActions;
 
   const fetchCars = async () => {
     const config = {
-      brand: brandId,
-      model: modelId,
-      generations: generationIds,
+      brand: brandUUID,
+      model: modelUUID,
+      generations: generationUUIDs,
       withPhotos: withPhotosCheckbox ? 1 : 0,
     }
+
+    console.log(config);
 
     closeModal()
     messageApi.open({
@@ -86,7 +89,7 @@ const SaveCarsFromOptions = () => {
         </Col>
       </ApModal>
       <GreenButton
-        disabled={!brandId || !modelId}
+        disabled={!brandUUID}
         className={classes.fetchSelectedCars}
         onClick={openModal}
       >

@@ -9,3 +9,8 @@
 .links a:hover {
   color: #00f6e4;
 }
+
+.mileageCarsTable {
+  height: 100%;
+  overflow: auto;
+}

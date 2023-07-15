@@ -2,17 +2,17 @@ import { useAppDispatch } from './../../../hooks/useAppDispatch';
 import { bindActionCreators, createSlice } from "@reduxjs/toolkit";
 
 interface IInitialState {
-  brandId: number | null;
-  modelId: number | null;
-  generationIds: Array<number>;
+  brandUUID: string | null;
+  modelUUID: string | null;
+  generationUUIDs: Array<string>;
   filterConfig: Object | null;
   triggerToRefetchCars: boolean;
 }
 
 const initialState: IInitialState = {
-  brandId: null,
-  modelId: null,
-  generationIds: [],
+  brandUUID: null,
+  modelUUID: null,
+  generationUUIDs: [],
   filterConfig: null,
   triggerToRefetchCars: false,
 }
@@ -21,25 +21,25 @@ const autoFilterSlice = createSlice({
   name: 'autoFilterSlice',
   initialState,
   reducers: {
-    setBrandId: (state, action) => {
-      state.brandId = action.payload;
+    setBrandUUID: (state, action) => {
+      state.brandUUID = action.payload;
     },
-    clearBrandId: (state) => {
-      state.brandId = null;
+    clearBrandUUID: (state) => {
+      state.brandUUID = null;
     },
 
-    setModelId: (state, action) => {
-      state.modelId = action.payload;
+    setModelUUID: (state, action) => {
+      state.modelUUID = action.payload;
     },
-    clearModelId: (state) => {
-      state.modelId = null;
+    clearModelUUID: (state) => {
+      state.modelUUID = null;
     },
   
-    setGenerationIds: (state, action) => {
-      state.generationIds = action.payload;
+    setGenerationUUIDs: (state, action) => {
+      state.generationUUIDs = action.payload;
     },
-    clearGenerationIds: (state) => {
-      state.generationIds = [];
+    clearGenerationUUIDs: (state) => {
+      state.generationUUIDs = [];
     },
 
     setFilterConfig: (state, action) => {
@@ -54,11 +54,11 @@ const autoFilterSlice = createSlice({
     },
 
     clearAllForNewBrand: (state) => {
-      state.generationIds = [];
-      state.modelId = null;
+      state.generationUUIDs = [];
+      state.modelUUID = null;
     },
     clearAllForNewModel: (state) => {
-      state.generationIds = [];
+      state.generationUUIDs = [];
     }
   }
 })

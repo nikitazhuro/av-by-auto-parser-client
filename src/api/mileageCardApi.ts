@@ -27,14 +27,9 @@ export const fetchMileageCarsOnBackend = async ({
 }: IFetchMileageCarsOnBackendQuery) => {
   let url = '/mileage-cars/fetch-all?';
 
-  console.log(  brand,
-    model,
-    generations,
-    withPhotos,);
-  
   url = url + (withPhotos ? 'withPhotos=1' : 'withPhotos=0')
-  url = url + (brand || brand === 0 ? `&brand=${brand}` : '')
-  url = url + (model || model === 0 ? `&model=${model}` : '')
+  url = url + (brand ? `&brand=${brand}` : '')
+  url = url + (model ? `&model=${model}` : '')
   url = url + (generations && generations.length ? `&generations=${generations}` : '')
   
   const response = await $localhost.get(url);

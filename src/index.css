@@ -334,3 +334,8 @@ code {
 .ant-pagination .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon {
   color: #00c3b5;
 }
+
+
+.ant-carousel {
+  width: 100%;
+}

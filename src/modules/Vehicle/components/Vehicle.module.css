@@ -1,0 +1,33 @@
+.vehicle {
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  height: 120px;
+  border: 1px solid #075C7A;
+  padding-left: 64px;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  justify-content: center;
+  background: url(/src/assets/img/in.jpg) center 68% no-repeat;
+  background-size: cover;
+}
+.banner a{
+  color: white;
+  text-decoration: none;
+}
+
+.bannerTitle {
+  font-size: 1.75rem;
+}
+
+.spinner {
+  height: calc(100vh - 168px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

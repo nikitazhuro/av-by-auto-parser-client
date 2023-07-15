@@ -5,22 +5,24 @@ import { useSearchParams } from 'react-router-dom';
 import { useGetModelsQuery } from '../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useGetCarsFilterActions } from '../../pages/VehiclesSold/store/autoFilterSlice';
+import { RootState } from '../../store';
+import { upperFirst } from 'lodash';
 
 const AutoModelSelect = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { brandId, modelId } = useTypedSelector((state) => state.autoFilter)
+  const { brandUUID, modelUUID } = useTypedSelector((state: RootState) => state.autoFilter)
 
-  const { data = [], isLoading } = useGetModelsQuery(brandId)
+  const { data = [], isLoading } = useGetModelsQuery(brandUUID)
 
-  const { setModelId, clearAllForNewModel } = useGetCarsFilterActions();
+  const { setModelUUID, clearAllForNewModel } = useGetCarsFilterActions();
 
   const selectOptions = useMemo(() => {
-    return data.map((e) => ({ value: e.id, label: e.name }))
+    return data.map((e) => ({ value: e.uuid, label: upperFirst(e.title) }))
   }, [data]);
 
-  const onChange = (value: number) => {
-    setModelId(value);
+  const onChange = (value: string) => {
+    setModelUUID(value);
     setSearchParams((prev) => {
       prev.delete('model')
       prev.delete('generation');
@@ -36,10 +38,10 @@ const AutoModelSelect = () => {
   }
 
   useEffect(() => {
-    const modelIDFromParams = searchParams.get('model');
+    const modelUUIDFromParams = searchParams.get('model');
 
-    if (modelIDFromParams) {
-      setModelId(+modelIDFromParams);
+    if (modelUUIDFromParams) {
+      setModelUUID(modelUUIDFromParams);
     }
   }, []);
 
@@ -48,7 +50,7 @@ const AutoModelSelect = () => {
       <Select
         loading={isLoading}
         showSearch
-        value={(data.length && modelId) || null}
+        value={(data.length && modelUUID) || null}
         style={{ width: 160 }}
         placeholder="Select a model"
         optionFilterProp="children"

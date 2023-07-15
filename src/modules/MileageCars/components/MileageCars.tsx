@@ -12,8 +12,8 @@ import { autoFilterSliceActions } from '../../../pages/VehiclesSold/store/autoFi
 import { getMileageCarsFromLocalhost } from '../../../api/mileageCardApi';
 
 const MileageCars = () => {
-  const { brandId, generationIds, modelId, filterConfig } = useTypedSelector(getAutoFilter);
-  const showAutoGallery = brandId && generationIds.length && modelId;
+  const { brandUUID, generationUUIDs, modelUUID, filterConfig } = useTypedSelector(getAutoFilter);
+  const showCarsTable = brandUUID && generationUUIDs.length && modelUUID;
 
   const dispatch = useAppDispatch();
 
@@ -44,11 +44,11 @@ const MileageCars = () => {
   }
 
   const fetchMileageCardWrapper = () => {
-    if (brandId && generationIds.length && modelId) {
+    if (brandUUID && generationUUIDs.length && modelUUID) {
       const config: any = {
-        brand: brandId,
-        generations: generationIds,
-        model: modelId,
+        brand: brandUUID,
+        generations: generationUUIDs,
+        model: modelUUID,
       };
 
       if (filterConfig) {
@@ -61,17 +61,17 @@ const MileageCars = () => {
 
   useEffect(() => {
     fetchMileageCardWrapper();
-  }, [brandId, generationIds, modelId, filterConfig])
+  }, [brandUUID, generationUUIDs, modelUUID, filterConfig])
 
   useEffect(() => {
     if (triggerToRefetchCars) {
       fetchMileageCardWrapper();
     }
-  }, [triggerToRefetchCars, brandId, generationIds, modelId])
+  }, [triggerToRefetchCars, brandUUID, generationUUIDs, modelUUID])
 
   return (
     <Row className={classes.milageCarsTableBlock}>
-      {showAutoGallery
+      {showCarsTable
         ? (
           <Col className={classes.carsList}>
             <MileageCarsTableWrapper data={data} isLoading={isLoading} />

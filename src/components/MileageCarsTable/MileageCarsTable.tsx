@@ -1,4 +1,4 @@
-import { Col, Image, Row, Table } from "antd"
+import { Col, Image, Row, Table, Tooltip } from "antd"
 import dayjs from "dayjs";
 import { get } from 'lodash';
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       },
     },
     {
-      title: 'Dates',
+      title: 'Published',
       dataIndex: ['data', 'publishedAt'],
       key: 'publishedAt',
       sorter: (a: any, b: any) => {
@@ -54,16 +54,16 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
 
       render: (_: any, row: any) => {
         const published = get(row, ['data', 'publishedAt'], null);
-        const removed = get(row, ['data', 'removedAt'], null);
         
         return (
           <Row className={classes.datesColumn}>
-            <Col>
-              Rm - {removed ? dayjs(removed).format('YYYY-MM-DD, HH:mm') : 'No data'}
-            </Col>
-            <Col>
-              Pub - {published ? dayjs(published).format('YYYY-MM-DD, HH:mm') : 'No data'}
-            </Col>
+            {published
+              ? (
+                <Tooltip title={dayjs(published).format('YYYY-MM-DD, HH:mm')}>
+                  {dayjs(published).format('YYYY-MM-DD')}
+                </Tooltip>
+              )
+              : 'No data'}
           </Row>
         )
       }
@@ -81,16 +81,20 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
         }
         return 1
       },
-      render: (cell: any, row: any) => {
+      render: (usdPrice: any, row: any) => {        
+        const bynPrice = get(row, ['data', 'price', 'byn', 'amount'], 'no data');
+
         return (
           <span>
-            {cell} $
+            <Tooltip title={bynPrice + ' BYN'}>
+              {usdPrice} $
+            </Tooltip>
           </span>
         )
       },
     },
     {
-      title: 'Mileage (km)',
+      title: 'Mileage',
       dataIndex: 'mileage_km',
       key: 'mileage_km',
       sorter: (a: any, b: any) => +a.mileage_km - +b.mileage_km,
@@ -196,7 +200,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
       dataIndex: ['data', 'publicUrl'],
       render: (cell: string) => (
         <Col className={classes.links}>
-          <a href={cell} target="_blank">
+          <a href={cell} onClick={(e) => e.stopPropagation()} target="_blank">
             AV.by
           </a>
         </Col>
@@ -216,10 +220,7 @@ const MileageCarsTable: React.FC<ICustomTable> = ({
     <Table
       loading={isLoading}
       size="small"
-      style={{
-        height: '100%',
-        overflow: 'auto',
-      }}
+      className={classes.mileageCarsTable}
       columns={columns}
       dataSource={data}
       onRow={onRow}

@@ -1,5 +1,6 @@
-import { publicRoutes } from "../router"
 import { Route, Routes } from 'react-router-dom';
+
+import { publicRoutes } from "../router";
 
 const AppRouter = () => {
   return (

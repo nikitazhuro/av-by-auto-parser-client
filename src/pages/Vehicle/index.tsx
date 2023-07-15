@@ -1,3 +1,3 @@
-import Vehicle from "./components/Vehicle";
+import VehiclePage from "./components/VehiclePage";
 
-export default Vehicle;
+export default VehiclePage;
