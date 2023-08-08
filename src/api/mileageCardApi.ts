@@ -36,3 +36,15 @@ export const fetchMileageCarsOnBackend = async ({
 
   return response.data;
 }
+
+export const fetchPhoneNumberOnBackend = async () => {
+  const response = await $localhost.get('/phone-numbers/fetch-all');
+
+  return response.data;
+}
+
+export const comparePhoneNumberWithCarsOnBackend = async () => {
+  const response = await $localhost.get('/mileage-cars/compare-numbers');
+
+  return response.data;
+}

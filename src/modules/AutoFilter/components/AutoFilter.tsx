@@ -8,11 +8,13 @@ import AutoGenerationSelect from '../../../components/AutoFilterSelects/AutoGene
 import SaveCarsFromOptions from './SaveCarsFromOptions/SaveCarsFromOptions';
 import FetchAllCars from './FetchAllCars/FetchAllCars';
 import Filter from '../../MileageCars/components/Filter/Filter';
+import GreenButton from '../../../components/Button/GreenButton';
+import FetchPhoneNumbers from './FetchPhoneNumber/FetchPhoneNumbers';
 
 import { useGetBrandsQuery } from '../../../pages/VehiclesSold/store/vehiclesSoldApi';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { getBrandUUID, getModelUUID } from '../../../pages/VehiclesSold';
-import GreenButton from '../../../components/Button/GreenButton';
+
 
 const AutoBrandFilter = () => {
   const { data = [], isLoading } = useGetBrandsQuery();
@@ -42,6 +44,7 @@ const AutoBrandFilter = () => {
         <Col>
           <FetchAllCars />
           <SaveCarsFromOptions />
+          <FetchPhoneNumbers />
         </Col>
       </Col>
       <Col span={24} className={classes.filterList}>
