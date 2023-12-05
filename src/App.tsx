@@ -25,6 +25,8 @@ function App() {
       changeRoute('Auction')
     } else if (location.pathname.includes('/marketplace')) {
       changeRoute('Marketplace')
+    } else if (location.pathname.includes('/phonenumbers')) {
+      changeRoute('Phone numbers');
     } else {
       changeRoute('Home')
     }

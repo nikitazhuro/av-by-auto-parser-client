@@ -1,0 +1,21 @@
+.filterList {
+  display: flex;
+  align-items: end;
+  margin-top: 0.5rem;
+}
+
+.filterHeader {
+  margin: 1.5rem 0;
+}
+
+.carsFilterTitle {
+  font-size: 44px;
+}
+
+.carsFilterDescription {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  font-family: 'PT Mono', monospace;
+  line-height: 125%;
+  letter-spacing: 2px;
+}

@@ -31,6 +31,7 @@ const items: MenuItem[] = [
     getItem('Mileage auto', 'Mileage auto'),
   ]),
   getItem('Marketplace', 'Marketplace', <Marketplace />),
+  getItem('Phone numbers', 'Phone numbers', <Marketplace />),
   getItem('Auction', 'Auction', <Auction />),
 ];
 
@@ -63,6 +64,10 @@ const SideMenu: React.FC<ISideMenu> = ({
       case 'Marketplace':
         setSelectedRoute('Marketplace');
         router('/marketplace');
+        return
+      case 'Phone numbers':
+        setSelectedRoute('Phone numbers');
+        router('/phonenumbers');
         return
       case 'Auction':
           setSelectedRoute('Auction');
