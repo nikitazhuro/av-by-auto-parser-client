@@ -1,6 +1,8 @@
-import { Col, Image, Table, TableProps } from "antd";
+import { Col, Image, Table, Tooltip } from "antd";
+import { CopyOutlined } from '@ant-design/icons';
 
 import classes from './phoneNumbersTable.module.css';
+import { useState } from "react";
 
 interface IPhoneNumbersTable {
   data: Array<any>;
@@ -11,6 +13,20 @@ const PhoneNumbersTable: React.FC<IPhoneNumbersTable> = ({
   isLoading,
   data,
 }) => {
+
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const [lastClickNumber, setLastClickNumber] = useState<number | null>(null);
+
+  const copyNumber = (number: string, id: number) => () => {
+    setLastClickNumber(id);
+    setIsTooltipOpen(true);
+
+    navigator.clipboard.writeText(number);
+  }
+
+  const leaveCopyBlock = () => {
+    setIsTooltipOpen(false);
+  }
 
   const columns = [
     {
@@ -64,8 +80,23 @@ const PhoneNumbersTable: React.FC<IPhoneNumbersTable> = ({
       dataIndex: ['phoneNumber', 'number'],
       key: 'number',
       filterSearch: true,
-      render: (cell: any) => {
-        return <div>{cell || 'No data'}</div>
+      render: (cell: any, row: any) => { 
+        const number = `+${cell}`;
+
+        return (
+          cell ?
+          <Tooltip open={lastClickNumber === row.id ? isTooltipOpen : false} title='Copied!'>
+            <div
+              className={classes.number}
+              onClick={copyNumber(`+${cell}`, row.id)}
+              onMouseLeave={leaveCopyBlock}
+            >
+              <CopyOutlined />
+              {number}
+            </div>
+          </Tooltip>
+          : 'no data'
+        )
       }
     },
     {
